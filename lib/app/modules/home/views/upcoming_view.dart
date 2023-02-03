@@ -28,7 +28,7 @@ class UpcomingView extends GetView<UpcomingControllerController> {
             itemBuilder: (context, index) {
               CurrentMovie upcomming = controller.upcomming[index];
               return CachedNetworkImage(
-                imageUrl: "${upcomming.image}",
+                imageUrl: "${upcomming.popularity}",
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(16),

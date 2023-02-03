@@ -1,15 +1,43 @@
 // To parse this JSON data, do
 //
-//     final currentMovie = currentMovieFromJson(jsonString);
+//     final topRatedMovie = topRatedMovieFromJson(jsonString);
 
 import 'dart:convert';
 
-CurrentMovie currentMovieFromJson(String str) => CurrentMovie.fromJson(json.decode(str));
+TopRatedMovie topRatedMovieFromJson(String str) => TopRatedMovie.fromJson(json.decode(str));
 
-String currentMovieToJson(CurrentMovie data) => json.encode(data.toJson());
+String topRatedMovieToJson(TopRatedMovie data) => json.encode(data.toJson());
 
-class CurrentMovie {
-    CurrentMovie({
+class TopRatedMovie {
+    TopRatedMovie({
+        this.page,
+        this.results,
+        this.totalPages,
+        this.totalResults,
+    });
+
+    int? page;
+    List<Result>? results;
+    int? totalPages;
+    int? totalResults;
+
+    factory TopRatedMovie.fromJson(Map<String, dynamic> json) => TopRatedMovie(
+        page: json["page"],
+        results: json["results"] == null ? [] : List<Result>.from(json["results"]!.map((x) => Result.fromJson(x))),
+        totalPages: json["total_pages"],
+        totalResults: json["total_results"],
+    );
+
+    Map<String, dynamic> toJson() => {
+        "page": page,
+        "results": results == null ? [] : List<dynamic>.from(results!.map((x) => x.toJson())),
+        "total_pages": totalPages,
+        "total_results": totalResults,
+    };
+}
+
+class Result {
+    Result({
         this.adult,
         this.backdropPath,
         this.genreIds,
@@ -41,7 +69,7 @@ class CurrentMovie {
     double? voteAverage;
     int? voteCount;
 
-    factory CurrentMovie.fromJson(Map<String, dynamic> json) => CurrentMovie(
+    factory Result.fromJson(Map<String, dynamic> json) => Result(
         adult: json["adult"],
         backdropPath: json["backdrop_path"],
         genreIds: json["genre_ids"] == null ? [] : List<int>.from(json["genre_ids"]!.map((x) => x)),
