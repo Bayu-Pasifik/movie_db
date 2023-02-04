@@ -83,7 +83,7 @@ class HomeView extends GetView<HomeController> {
                   NowPlayingView(),
                   UpcomingView(),
                   TopView(),
-                  Text("popular"),
+                  Text("popularity"),
                 ]),
               )
             ],
