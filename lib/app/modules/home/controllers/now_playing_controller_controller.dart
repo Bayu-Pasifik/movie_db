@@ -8,7 +8,6 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NowPlayingControllerController extends GetxController {
   var hal = 1.obs;
-  late Future<List> currentMovie;
   RefreshController currentRefresh = RefreshController(initialRefresh: true);
   List<dynamic> current = [];
   var page;
@@ -31,6 +30,7 @@ class NowPlayingControllerController extends GetxController {
   void refreshData() async {
     if (currentRefresh.initialRefresh == true) {
       hal.value = 1;
+      current = [];
       await getCurrent(hal.value);
       update();
       return currentRefresh.refreshCompleted();

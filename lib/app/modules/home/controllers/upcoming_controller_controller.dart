@@ -7,33 +7,51 @@ import 'dart:convert';
 
 class UpcomingControllerController extends GetxController {
   List upcomming = [];
-  late Future<List> upcommingMovie;
-  RefreshController currentRefresh = RefreshController(initialRefresh: true);
-  dynamic temp;
-  Future<List> getCurrent() async {
-    Uri url = Uri.parse('$comingSoon');
+  RefreshController upcommingRefresh = RefreshController(initialRefresh: true);
+  var hal = 1.obs;
+  var page;
+  var totalPage;
+
+  Future<List> getCurrent(int halaman) async {
+    Uri url = Uri.parse('$comingSoon&page=$halaman');
     var response = await http.get(url);
     if (response.statusCode == 200) {
-      var data = json.decode(response.body)['items'];
-      upcomming = data.map((e) => CurrentMovie.fromJson(e)).toList();
-      print(upcomming);
+      var data = json.decode(response.body)['results'];
+      page = json.decode(response.body)['page'];
+      totalPage = json.decode(response.body)['total_pages'];
+      var tempdata = data.map((e) => CurrentMovie.fromJson(e)).toList();
+      upcomming.addAll(tempdata);
+      print("page : $page");
+      print("total : $totalPage");
     }
     return upcomming;
   }
 
   void refreshData() async {
-    if (currentRefresh.initialRefresh == true) {
-      await getCurrent();
+    if (upcommingRefresh.initialRefresh == true) {
+      hal.value = 1;
+      upcomming = [];
+      await getCurrent(hal.value);
       update();
-      return currentRefresh.refreshCompleted();
+      return upcommingRefresh.refreshCompleted();
     } else {
-      return currentRefresh.refreshFailed();
+      return upcommingRefresh.refreshFailed();
+    }
+  }
+
+  void loadData() async {
+    if (page <= totalPage) {
+      hal.value = hal.value + 1;
+      await getCurrent(hal.value);
+      update();
+      return upcommingRefresh.loadComplete();
+    } else {
+      return upcommingRefresh.loadNoData();
     }
   }
 
   @override
   void onInit() {
     super.onInit();
-    upcommingMovie = getCurrent();
   }
 }
