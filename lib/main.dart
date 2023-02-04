@@ -7,12 +7,6 @@ import 'app/modules/home/controllers/now_playing_controller_controller.dart';
 import 'app/routes/app_pages.dart';
 
 void main() {
-  Get.lazyPut(
-    () => NowPlayingControllerController(),
-  );
-  Get.lazyPut(
-    () => UpcomingControllerController(),
-  );
   runApp(
     GetMaterialApp(
       debugShowCheckedModeBanner: false,

@@ -7,11 +7,11 @@ import 'package:movie_db/app/modules/home/controllers/now_playing_controller_con
 import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class NowPlayingView extends GetView<NowPlayingControllerController> {
+class NowPlayingView extends GetView<NowPlayingController> {
   const NowPlayingView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NowPlayingControllerController>(
+    return GetBuilder<NowPlayingController>(
       builder: (c) {
         return SmartRefresher(
             controller: c.currentRefresh,

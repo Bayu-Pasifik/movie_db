@@ -4,7 +4,7 @@ String nowPlaying = "https://api.themoviedb.org/3/movie/now_playing?api_key=$api
 
 String topRated = "https://api.themoviedb.org/3/movie/top_rated?api_key=$apikey&language=en-US";
 
-// ! blm di benahi
 String comingSoon = "https://api.themoviedb.org/3/movie/upcoming?api_key=$apikey&language=en-US";
+// ! blm di benahi
 
 String detail = "https://imdb-api.com/en/API/Title/$apikey";

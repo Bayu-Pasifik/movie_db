@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/modules/home/controllers/now_playing_controller_controller.dart';
+import 'package:movie_db/app/modules/home/controllers/top_controller_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/upcoming_controller_controller.dart';
 import 'package:movie_db/app/modules/home/views/now_playing_view.dart';
+import 'package:movie_db/app/modules/home/views/top_view.dart';
 import 'package:movie_db/app/modules/home/views/upcoming_view.dart';
 import '../controllers/home_controller.dart';
 
@@ -10,8 +12,9 @@ class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.find<UpcomingControllerController>();
-    Get.find<NowPlayingControllerController>();
+    Get.find<UpcomingController>();
+    Get.find<NowPlayingController>();
+    Get.find<TopController>();
     return Scaffold(
         body: DefaultTabController(
       length: 4,
@@ -79,7 +82,7 @@ class HomeView extends GetView<HomeController> {
                 child: TabBarView(children: [
                   NowPlayingView(),
                   UpcomingView(),
-                  Text("top rated"),
+                  TopView(),
                   Text("popular"),
                 ]),
               )
