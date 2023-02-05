@@ -11,6 +11,10 @@ String comingSoon =
 
 String popular =
     "https://api.themoviedb.org/3/movie/popular?api_key=$apikey&language=en-US";
+
+String trending =
+    "https://api.themoviedb.org/3/trending/movie/week?api_key=$apikey";
+
 // ! blm di benahi
 
 String detail = "https://imdb-api.com/en/API/Title/$apikey";

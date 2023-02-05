@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
 import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
 import 'package:movie_db/app/modules/home/views/top_view.dart';
@@ -39,29 +41,63 @@ class HomeItemsView extends GetView<HomeController> {
               SizedBox(
                 height: 20,
               ),
-              TextField(
-                decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(15))),
-              ),
-              SizedBox(
-                height: 20,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("Trending Movie"),
+                  TextButton(onPressed: () {}, child: Text("Load More..."))
+                ],
               ),
               Container(
                 height: 150,
-                child: ListView.separated(
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        height: 50,
-                        width: 50,
-                        color: Colors.black45,
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(
-                          width: 10,
-                        ),
-                    itemCount: 10),
+                child: FutureBuilder<List>(
+                  future: controller.trendingMovie,
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            CurrentMovie trending =
+                                controller.listTrending[index];
+                            return Container(
+                              width: 100,
+                              height: 150,
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    "https://image.tmdb.org/t/p/original${trending.posterPath}",
+                                imageBuilder: (context, imageProvider) =>
+                                    Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    image: DecorationImage(
+                                        image: imageProvider,
+                                        fit: BoxFit.cover),
+                                  ),
+                                ),
+                                progressIndicatorBuilder:
+                                    (context, url, downloadProgress) =>
+                                        CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                                width: 10,
+                              ),
+                          itemCount: controller.listTrending.length);
+                    }
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  },
+                ),
               ),
               SizedBox(
                 height: 20,
