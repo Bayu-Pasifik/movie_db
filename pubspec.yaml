@@ -12,6 +12,7 @@ dependencies:
   http: 0.13.5
   pull_to_refresh: 2.0.0
   cached_network_image: 3.2.3
+  responsive_sizer: 3.1.1
   flutter: 
     sdk: flutter
 

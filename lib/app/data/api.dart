@@ -1,4 +1,5 @@
 String apikey = "b29f6442d152f9b427bd2184b3d3c707";
+late String idMovie;
 
 String nowPlaying =
     "https://api.themoviedb.org/3/movie/now_playing?api_key=$apikey&language=en-US";
@@ -15,6 +16,5 @@ String popular =
 String trending =
     "https://api.themoviedb.org/3/trending/movie/week?api_key=$apikey";
 
-// ! blm di benahi
-
-String detail = "https://imdb-api.com/en/API/Title/$apikey";
+String detail =
+    "https://api.themoviedb.org/3/movie/$idMovie?api_key=$apikey&language=en-US";

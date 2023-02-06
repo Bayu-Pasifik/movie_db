@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
+import 'package:movie_db/app/modules/DetailPage/controllers/detail_page_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
 import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
 import 'package:movie_db/app/modules/home/views/top_view.dart';
