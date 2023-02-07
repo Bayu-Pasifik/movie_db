@@ -4,6 +4,7 @@ import 'package:movie_db/app/data/api.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 import 'package:http/http.dart' as http;
+import 'package:movie_db/app/data/models/MovieCast.dart';
 import 'dart:convert';
 
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
@@ -16,6 +17,7 @@ class DetailPageController extends GetxController {
   var page;
   var totalPage;
   var hal = 1.obs;
+  List<dynamic> cast = [];
   Future<DetailMovie> detailMovie(String id) async {
     Uri url = Uri.parse(
         'https://api.themoviedb.org/3/movie/$id?api_key=$apikey&language=en-US');
@@ -36,6 +38,16 @@ class DetailPageController extends GetxController {
     var tempData = data.map((e) => ReviewMovie.fromJson(e)).toList();
     reviews.addAll(tempData);
     return reviews;
+  }
+
+  Future<List> castMovie(String id) async {
+    Uri url = Uri.parse(
+        'https://api.themoviedb.org/3/movie/$id/credits?api_key=$apikey&language=en-US');
+    var response = await http.get(url);
+    var data = json.decode(response.body)["cast"];
+    var tempData = data.map((e) => MovieCast.fromJson(e)).toList();
+    cast.addAll(tempData);
+    return cast;
   }
 
   void refreshData(String id) async {
@@ -71,6 +83,7 @@ class DetailPageController extends GetxController {
   void onInit() {
     final detailmov = Get.arguments as CurrentMovie;
     detailfilm = detailMovie(detailmov.id.toString());
+    
     super.onInit();
   }
 }

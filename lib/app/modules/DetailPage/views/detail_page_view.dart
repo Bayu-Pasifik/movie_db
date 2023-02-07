@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
+import 'package:movie_db/app/data/models/MovieCast.dart';
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
 import 'package:movie_db/app/data/utils.dart';
 import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../../../../infrastructure/navigation/routes.dart';
 import '../controllers/detail_page_controller.dart';
 
 class DetailPageView extends GetView<DetailPageController> {
@@ -42,6 +44,7 @@ class DetailPageView extends GetView<DetailPageController> {
                     children: [
                       Column(
                         children: [
+                          // ! Stack for backround image and rating
                           Stack(
                             children: [
                               Container(
@@ -205,11 +208,88 @@ class DetailPageView extends GetView<DetailPageController> {
                               width: Get.width,
                               height: Get.height,
                               child: TabBarView(children: [
-                                Text("About"),
+                                Text("${detailMovie.overview}"),
                                 ReviewItemsView(
                                   id: detailMovie.id.toString(),
                                 ),
-                                Text("Cast"),
+                                FutureBuilder(
+                                  future: controller
+                                      .castMovie(detailMovie.id.toString()),
+                                  builder: (context, snapshot) {
+                                    if (snapshot.hasData) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
+                                      } else if (snapshot.connectionState ==
+                                          ConnectionState.done) {
+                                        return GridView.builder(
+                                          gridDelegate:
+                                              const SliverGridDelegateWithMaxCrossAxisExtent(
+                                                  maxCrossAxisExtent: 200,
+                                                  childAspectRatio: 1 / 1.5,
+                                                  crossAxisSpacing: 40,
+                                                  mainAxisSpacing: 40),
+                                          itemCount: controller.cast.length,
+                                          itemBuilder: (context, index) {
+                                            MovieCast cast =
+                                                controller.cast[index];
+                                            return GestureDetector(
+                                              onTap: () {},
+                                              child: Column(
+                                                children: [
+                                                  Expanded(
+                                                    child: Container(
+                                                      width: 200,
+                                                      height: 200,
+                                                      child: CachedNetworkImage(
+                                                        imageUrl:
+                                                            "https://image.tmdb.org/t/p/original${cast.profilePath}",
+                                                        imageBuilder: (context,
+                                                                imageProvider) =>
+                                                            CircleAvatar(
+                                                          child: Container(
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                              image: DecorationImage(
+                                                                  image:
+                                                                      imageProvider,
+                                                                  fit: BoxFit
+                                                                      .cover),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        progressIndicatorBuilder:
+                                                            (context, url,
+                                                                    downloadProgress) =>
+                                                                Center(
+                                                          child: CircularProgressIndicator(
+                                                              value:
+                                                                  downloadProgress
+                                                                      .progress),
+                                                        ),
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            Icon(Icons.error),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text("${cast.character}")
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }
+                                    }
+                                    return Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                ),
                               ]),
                             ),
                           )
