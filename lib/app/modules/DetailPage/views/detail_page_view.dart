@@ -4,7 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
+import 'package:movie_db/app/data/models/ReviewMovie.dart';
 import 'package:movie_db/app/data/utils.dart';
+import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
 import '../controllers/detail_page_controller.dart';
@@ -66,13 +69,31 @@ class DetailPageView extends GetView<DetailPageController> {
                                       Icon(Icons.error),
                                 ),
                               ),
-                              Align(
-                                alignment: Alignment.bottomRight,
+                              Positioned(
+                                top: 180,
+                                left: 300,
                                 child: Container(
-                                  width: 20,
+                                  width: 60,
                                   height: 20,
-                                  color: Colors.amber,
-                                  child: Text("${detail.voteCount}"),
+                                  // color: Colors.amber,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star_border,
+                                        color: Colors.orange[600],
+                                        size: 20,
+                                      ),
+                                      Text(
+                                        "${detailMovie.voteAverage}",
+                                        style: TextStyle(
+                                            color: Colors.orange[600]),
+                                      ),
+                                    ],
+                                  ),
+                                  decoration: BoxDecoration(
+                                      color: Color.fromARGB(255, 56, 78, 116)
+                                          .withOpacity(0.8),
+                                      borderRadius: BorderRadius.circular(4)),
                                 ),
                               ),
                             ],
@@ -158,6 +179,7 @@ class DetailPageView extends GetView<DetailPageController> {
                               ],
                             ),
                           ),
+                          // ! container for tab bar
                           Container(
                             width: Get.width,
                             height: 40,
@@ -177,13 +199,16 @@ class DetailPageView extends GetView<DetailPageController> {
                                   ),
                                 ]),
                           ),
+                          // ! tabbar view
                           Expanded(
                             child: Container(
                               width: Get.width,
                               height: Get.height,
                               child: TabBarView(children: [
                                 Text("About"),
-                                Text("Review"),
+                                ReviewItemsView(
+                                  id: detailMovie.id.toString(),
+                                ),
                                 Text("Cast"),
                               ]),
                             ),
