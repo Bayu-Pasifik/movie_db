@@ -29,7 +29,7 @@ class DetailPageView extends GetView<DetailPageController> {
           actions: [IconButton(onPressed: () {}, icon: Icon(Icons.bookmark))],
         ),
         body: DefaultTabController(
-          length: 3,
+          length: 4,
           child: FutureBuilder<DetailMovie>(
             future: controller.detailfilm,
             builder: (context, snapshot) {
@@ -189,7 +189,7 @@ class DetailPageView extends GetView<DetailPageController> {
                             height: 40,
                             // color: Colors.amber,
                             child: TabBar(
-                                // isScrollable: true,
+                                isScrollable: true,
                                 labelColor: Colors.black,
                                 tabs: [
                                   Tab(
@@ -201,6 +201,9 @@ class DetailPageView extends GetView<DetailPageController> {
                                   Tab(
                                     text: "Cast",
                                   ),
+                                  Tab(
+                                    text: "Recomendation",
+                                  ),
                                 ]),
                           ),
                           // ! tabbar view
@@ -211,7 +214,74 @@ class DetailPageView extends GetView<DetailPageController> {
                               child: TabBarView(children: [
                                 Text("${detailMovie.overview}"),
                                 ReviewItemsView(id: detailMovie.id.toString()),
-                                CastView(id: detailMovie.id.toString())
+                                CastView(id: detailMovie.id.toString()),
+                                GetBuilder<DetailPageController>(
+                                  builder: (c) {
+                                    return SmartRefresher(
+                                        controller: c.recomRefresh,
+                                        enablePullDown: true,
+                                        enablePullUp: true,
+                                        onLoading: () => c
+                                            .loadRec(detailMovie.id.toString()),
+                                        onRefresh: () => c.refreshRec(
+                                            detailMovie.id.toString()),
+                                        child: (c.reviews.length != [])
+                                            ? ListView.separated(
+                                                itemCount: c.recom.length,
+                                                separatorBuilder:
+                                                    (context, index) {
+                                                  return SizedBox(
+                                                    height: 20,
+                                                  );
+                                                },
+                                                itemBuilder: (context, index) {
+                                                  CurrentMovie recomend =
+                                                      c.recom[index];
+                                                  return (c.recom.isNotEmpty)
+                                                      ? Material(
+                                                          elevation: 1,
+                                                          child: ListTile(
+                                                            leading: Container(
+                                                              width: 100,
+                                                              height: 200,
+                                                              child:
+                                                                  CachedNetworkImage(
+                                                                imageUrl:
+                                                                    "https://image.tmdb.org/t/p/original${recomend.posterPath}",
+                                                                progressIndicatorBuilder:
+                                                                    (context,
+                                                                            url,
+                                                                            downloadProgress) =>
+                                                                        Center(
+                                                                  child: CircularProgressIndicator(
+                                                                      value: downloadProgress
+                                                                          .progress),
+                                                                ),
+                                                                errorWidget: (context,
+                                                                        url,
+                                                                        error) =>
+                                                                    Icon(Icons
+                                                                        .error),
+                                                              ),
+                                                            ),
+                                                            title: Text(
+                                                                "${recomend.title}"),
+                                                            // subtitle: Text(
+                                                            //     "${recomend.originalTitle}"),
+                                                          ),
+                                                        )
+                                                      : Center(
+                                                          child: Text(
+                                                              "No Data Review..."),
+                                                        );
+                                                },
+                                              )
+                                            : Center(
+                                                child:
+                                                    Text("There is no Review"),
+                                              ));
+                                  },
+                                )
                               ]),
                             ),
                           )
