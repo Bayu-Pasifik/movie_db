@@ -6,10 +6,8 @@ import 'package:movie_db/app/modules/home/controllers/popular_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/top_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/upcoming_controller_controller.dart';
 import 'package:movie_db/app/modules/home/views/home_items_view.dart';
-import 'package:movie_db/app/modules/home/views/now_playing_view.dart';
-import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
-import 'package:movie_db/app/modules/home/views/top_view.dart';
-import 'package:movie_db/app/modules/home/views/upcoming_view.dart';
+import 'package:movie_db/app/modules/list_genre/controllers/list_genre_controller.dart';
+import 'package:movie_db/app/modules/list_genre/views/list_genre_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../controllers/home_controller.dart';
 
@@ -21,6 +19,7 @@ class HomeView extends GetView<HomeController> {
     Get.find<NowPlayingController>();
     Get.find<TopController>();
     Get.find<PopularController>();
+    Get.put(ListGenreController());
     PersistentTabController _controller;
     _controller = PersistentTabController(initialIndex: 0);
     List<Widget> _buildScreens() {
@@ -28,6 +27,7 @@ class HomeView extends GetView<HomeController> {
         HomeItemsView(),
         Container(width: 200, height: 200, child: Text("Search")),
         Container(width: 200, height: 200, child: Text("Watch List")),
+        ListGenreView(),
       ];
     }
 
@@ -48,6 +48,12 @@ class HomeView extends GetView<HomeController> {
         PersistentBottomNavBarItem(
           icon: Icon(CupertinoIcons.bookmark),
           title: ("Watch List"),
+          activeColorPrimary: CupertinoColors.activeBlue,
+          inactiveColorPrimary: CupertinoColors.systemGrey,
+        ),
+        PersistentBottomNavBarItem(
+          icon: Icon(CupertinoIcons.book),
+          title: ("Genre"),
           activeColorPrimary: CupertinoColors.activeBlue,
           inactiveColorPrimary: CupertinoColors.systemGrey,
         ),

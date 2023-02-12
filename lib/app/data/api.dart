@@ -16,5 +16,8 @@ String popular =
 String trending =
     "https://api.themoviedb.org/3/trending/movie/week?api_key=$apikey";
 
+String genreMovie =
+    "https://api.themoviedb.org/3/genre/movie/list?api_key=$apikey&language=en-US";
+
 String detail =
     "https://api.themoviedb.org/3/movie/$idMovie?api_key=$apikey&language=en-US";

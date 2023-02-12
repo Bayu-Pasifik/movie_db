@@ -8,6 +8,7 @@ import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
 import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
 import 'package:movie_db/app/modules/home/views/top_view.dart';
 import 'package:movie_db/app/modules/home/views/upcoming_view.dart';
+import 'package:movie_db/app/routes/app_pages.dart';
 
 import '../controllers/now_playing_controller_controller.dart';
 import '../controllers/popular_controller.dart';
@@ -46,7 +47,7 @@ class HomeItemsView extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Trending Movie"),
-                  TextButton(onPressed: () {}, child: Text("Load More..."))
+                  TextButton(onPressed: () {}, child: Text("Show All"))
                 ],
               ),
               Container(
@@ -65,27 +66,34 @@ class HomeItemsView extends GetView<HomeController> {
                           itemBuilder: (context, index) {
                             CurrentMovie trending =
                                 controller.listTrending[index];
-                            return Container(
-                              width: 100,
-                              height: 150,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://image.tmdb.org/t/p/original${trending.posterPath}",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
+                            return GestureDetector(
+                              onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
+                                  arguments: trending),
+                              child: Container(
+                                width: 100,
+                                height: 150,
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "https://image.tmdb.org/t/p/original${trending.posterPath}",
+                                  imageBuilder: (context, imageProvider) =>
+                                      Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16),
+                                      image: DecorationImage(
+                                          image: imageProvider,
+                                          fit: BoxFit.cover),
+                                    ),
                                   ),
+                                  progressIndicatorBuilder:
+                                      (context, url, downloadProgress) =>
+                                          Center(
+                                    child: CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      Image.asset(
+                                          "assets/images/Image_not_available.png"),
                                 ),
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) =>
-                                        CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                errorWidget: (context, url, error) =>
-                                    Icon(Icons.error),
                               ),
                             );
                           },

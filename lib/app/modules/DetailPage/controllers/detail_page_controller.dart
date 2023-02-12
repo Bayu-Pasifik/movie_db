@@ -38,7 +38,7 @@ class DetailPageController extends GetxController {
 
   Future<List> reviewMovie(String id, int hal) async {
     Uri url = Uri.parse(
-        'https://api.themoviedb.org/3/movie/$id/reviews?api_key=b29f6442d152f9b427bd2184b3d3c707&language=en-US&page=$hal');
+        'https://api.themoviedb.org/3/movie/$id/reviews?api_key=$apikey&language=en-US&page=$hal');
     var response = await http.get(url);
     var data = json.decode(response.body)['results'];
     page = json.decode(response.body)['page'];
@@ -60,7 +60,7 @@ class DetailPageController extends GetxController {
 
   Future<List> recommendation(String id, int halaman) async {
     Uri url = Uri.parse(
-        'https://api.themoviedb.org/3/movie/$id/recommendations?api_key=$apikey&language=en-US&page=$halaman');
+        'https://api.themoviedb.org/3/movie/$id/similar?api_key=$apikey&language=en-US&page=$halaman');
     var response = await http.get(url);
     var data = json.decode(response.body)['results'];
     pageRecom = json.decode(response.body)['page'];

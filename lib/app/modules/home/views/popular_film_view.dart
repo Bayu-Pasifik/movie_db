@@ -43,9 +43,12 @@ class PopularFilmView extends GetView<PopularController> {
                     ),
                     progressIndicatorBuilder:
                         (context, url, downloadProgress) =>
-                            CircularProgressIndicator(
-                                value: downloadProgress.progress),
-                    errorWidget: (context, url, error) => Icon(Icons.error),
+                            Center(
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                            ),
+                    errorWidget: (context, url, error) => Image.asset(
+                            "assets/images/Image_not_available.png"),
                   ),
                 );
               },
