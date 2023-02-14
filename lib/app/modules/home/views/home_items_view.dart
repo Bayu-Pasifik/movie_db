@@ -47,7 +47,11 @@ class HomeItemsView extends GetView<HomeController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text("Trending Movie"),
-                  TextButton(onPressed: () {}, child: Text("Show All"))
+                  TextButton(
+                      onPressed: () {
+                        Get.toNamed(Routes.TRENDING_PAGE);
+                      },
+                      child: Text("Show All"))
                 ],
               ),
               Container(

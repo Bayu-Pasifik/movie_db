@@ -1,5 +1,4 @@
 String apikey = "b29f6442d152f9b427bd2184b3d3c707";
-late String idMovie;
 
 String nowPlaying =
     "https://api.themoviedb.org/3/movie/now_playing?api_key=$apikey&language=en-US";
@@ -19,5 +18,3 @@ String trending =
 String genreMovie =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=$apikey&language=en-US";
 
-String detail =
-    "https://api.themoviedb.org/3/movie/$idMovie?api_key=$apikey&language=en-US";

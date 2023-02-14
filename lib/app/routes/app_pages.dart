@@ -8,6 +8,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/list_genre/bindings/list_genre_binding.dart';
 import '../modules/list_genre/views/list_genre_view.dart';
+import '../modules/trending_page/bindings/trending_page_binding.dart';
+import '../modules/trending_page/views/trending_page_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.GENRE_RESULT,
       page: () => const GenreResultView(),
       binding: GenreResultBinding(),
+    ),
+    GetPage(
+      name: _Paths.TRENDING_PAGE,
+      page: () => const TrendingPageView(),
+      binding: TrendingPageBinding(),
     ),
   ];
 }
