@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/modules/DetailPage/controllers/detail_page_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
@@ -33,27 +34,30 @@ class HomeItemsView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "What do you want to watch ?",
-                style: TextStyle(
-                    fontFamily: "Poppins",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
+              Text("What do you want to watch ?",
+                  style: GoogleFonts.poppins(
+                      fontWeight: FontWeight.w600, fontSize: 18)),
               SizedBox(
                 height: 20,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Trending Movie"),
+                  Text(
+                    "Trending Movie",
+                    style: GoogleFonts.poppins(),
+                  ),
                   TextButton(
                       onPressed: () {
                         Get.toNamed(Routes.TRENDING_PAGE);
                       },
-                      child: Text("Show All"))
+                      child: Text(
+                        "Show All",
+                        style: GoogleFonts.poppins(),
+                      ))
                 ],
               ),
+              // ! Listview Trending
               Container(
                 height: 150,
                 child: FutureBuilder<List>(
@@ -70,35 +74,64 @@ class HomeItemsView extends GetView<HomeController> {
                           itemBuilder: (context, index) {
                             CurrentMovie trending =
                                 controller.listTrending[index];
-                            return GestureDetector(
-                              onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                                  arguments: trending),
-                              child: Container(
-                                width: 100,
-                                height: 150,
-                                child: CachedNetworkImage(
-                                  imageUrl:
-                                      "https://image.tmdb.org/t/p/original${trending.posterPath}",
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(16),
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    child: GestureDetector(
+                                      onTap: () => Get.toNamed(
+                                          Routes.DETAIL_PAGE,
+                                          arguments: trending),
+                                      child: Container(
+                                        width: 100,
+                                        height: 150,
+                                        child: CachedNetworkImage(
+                                          imageUrl:
+                                              "https://image.tmdb.org/t/p/original${trending.posterPath}",
+                                          imageBuilder:
+                                              (context, imageProvider) =>
+                                                  Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                              image: DecorationImage(
+                                                  image: imageProvider,
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          progressIndicatorBuilder: (context,
+                                                  url, downloadProgress) =>
+                                              Center(
+                                            child: CircularProgressIndicator(
+                                                value:
+                                                    downloadProgress.progress),
+                                          ),
+                                          errorWidget: (context, url, error) =>
+                                              Image.asset(
+                                                  "assets/images/Image_not_available.png"),
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                          "assets/images/Image_not_available.png"),
                                 ),
-                              ),
+                                Text(
+                                  "${trending.title}",
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          overflow: TextOverflow.ellipsis)),
+                                ),
+                                (trending.releaseDate != "")
+                                    ? Text(
+                                        "(${trending.releaseDate!.year})",
+                                        style: GoogleFonts.poppins(),
+                                      )
+                                    : Text(
+                                        "Null",
+                                        style: GoogleFonts.poppins(),
+                                      )
+                              ],
                             );
                           },
                           separatorBuilder: (context, index) => SizedBox(
@@ -115,20 +148,24 @@ class HomeItemsView extends GetView<HomeController> {
               SizedBox(
                 height: 20,
               ),
-              TabBar(isScrollable: true, labelColor: Colors.black, tabs: [
-                Tab(
-                  text: "Currently Airing",
-                ),
-                Tab(
-                  text: "Upcoming",
-                ),
-                Tab(
-                  text: "Top Rated",
-                ),
-                Tab(
-                  text: "Popular",
-                ),
-              ]),
+              TabBar(
+                  labelStyle: GoogleFonts.poppins(),
+                  isScrollable: true,
+                  labelColor: Colors.black,
+                  tabs: [
+                    Tab(
+                      text: "Currently Airing",
+                    ),
+                    Tab(
+                      text: "Upcoming",
+                    ),
+                    Tab(
+                      text: "Top Rated",
+                    ),
+                    Tab(
+                      text: "Popular",
+                    ),
+                  ]),
               SizedBox(
                 height: 20,
               ),

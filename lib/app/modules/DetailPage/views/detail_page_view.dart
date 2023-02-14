@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 
@@ -23,7 +24,10 @@ class DetailPageView extends GetView<DetailPageController> {
       builder: (c) {
         return Scaffold(
             appBar: AppBar(
-              title: Text('Detail'),
+              title: Text(
+                'Detail',
+                style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
+              ),
               elevation: 0,
               centerTitle: true,
               actions: [
@@ -72,7 +76,8 @@ class DetailPageView extends GetView<DetailPageController> {
                                           CircularProgressIndicator(
                                               value: downloadProgress.progress),
                                       errorWidget: (context, url, error) =>
-                                          Icon(Icons.error),
+                                          Image.asset(
+                                              "assets/images/Image_not_available.png"),
                                     ),
                                   ),
                                   Positioned(
@@ -108,8 +113,8 @@ class DetailPageView extends GetView<DetailPageController> {
                               ),
                               // ! Container for name (movie title)
                               Container(
-                                width: Get.width,
-                                height: 30,
+                                width: context.width,
+                                height: 40,
                                 // color: Colors.green,
                                 child: Stack(
                                   children: [
@@ -119,12 +124,26 @@ class DetailPageView extends GetView<DetailPageController> {
                                                 const EdgeInsets.only(top: 10),
                                             child: Align(
                                                 alignment: Alignment.topCenter,
-                                                child: Text("${detail.title}")),
+                                                child: Text(
+                                                  "${detail.title}",
+                                                  style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18),
+                                                )),
                                           )
                                         : Positioned(
                                             top: 10,
-                                            left: 130,
-                                            child: Text("${detail.title}")),
+                                            left: 100,
+                                            child: Text(
+                                              "${detail.title}",
+                                              style: GoogleFonts.poppins(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 18,
+                                                  textStyle: TextStyle(
+                                                      overflow: TextOverflow
+                                                          .visible)),
+                                            )),
                                   ],
                                 ),
                               ),
@@ -147,7 +166,10 @@ class DetailPageView extends GetView<DetailPageController> {
                                           ),
                                           (detailMovie.releaseDate != null)
                                               ? Text(
-                                                  "${detailMovie.releaseDate!.year} | ")
+                                                  "${detailMovie.releaseDate!.year} | ",
+                                                  style:
+                                                      GoogleFonts.montserrat(),
+                                                )
                                               : Text("Null | "),
                                           Icon(
                                             Icons.access_time,
@@ -155,14 +177,21 @@ class DetailPageView extends GetView<DetailPageController> {
                                           ),
                                           (detailMovie.runtime != null)
                                               ? Text(
-                                                  "${detailMovie.runtime} minutes |")
+                                                  "${detailMovie.runtime} minutes |",
+                                                  style:
+                                                      GoogleFonts.montserrat(),
+                                                )
                                               : Text("Null"),
                                           Icon(
                                             Icons.movie,
                                             size: 20,
                                           ),
                                           (detailMovie.status != null)
-                                              ? Text("${detailMovie.status}")
+                                              ? Text(
+                                                  "${detailMovie.status}",
+                                                  style:
+                                                      GoogleFonts.montserrat(),
+                                                )
                                               : Text("Null")
                                         ],
                                       ),
@@ -189,6 +218,8 @@ class DetailPageView extends GetView<DetailPageController> {
                                                       in detailMovie.genres!)
                                                     Text(
                                                       "${genre.name} | ",
+                                                      style: GoogleFonts
+                                                          .montserrat(),
                                                     )
                                                 ],
                                               )
@@ -206,6 +237,7 @@ class DetailPageView extends GetView<DetailPageController> {
                                 child: TabBar(
                                     isScrollable: true,
                                     labelColor: Colors.black,
+                                    labelStyle: GoogleFonts.poppins(),
                                     tabs: [
                                       Tab(
                                         text: "About Movie",
@@ -227,7 +259,11 @@ class DetailPageView extends GetView<DetailPageController> {
                                   width: Get.width,
                                   height: Get.height,
                                   child: TabBarView(children: [
-                                    Text("${detailMovie.overview}"),
+                                    // ! overview
+                                    Text(
+                                      "${detailMovie.overview}",
+                                      style: GoogleFonts.poppins(),
+                                    ),
                                     ReviewItemsView(
                                         id: detailMovie.id.toString()),
                                     CastView(id: detailMovie.id.toString()),
@@ -294,29 +330,45 @@ class DetailPageView extends GetView<DetailPageController> {
                                                                     ),
                                                                   ),
                                                                   title: Text(
-                                                                      "${recomend.title}"),
+                                                                    "${recomend.title}",
+                                                                    style: GoogleFonts
+                                                                        .poppins(),
+                                                                  ),
                                                                   subtitle: Row(
                                                                     children: [
                                                                       Icon(CupertinoIcons
                                                                           .star),
                                                                       Text(
-                                                                          "${recomend.voteAverage ?? "NaN"}"),
+                                                                        "${recomend.voteAverage ?? "NaN"}",
+                                                                        style: GoogleFonts
+                                                                            .poppins(),
+                                                                      ),
                                                                     ],
                                                                   ),
-                                                                  trailing: Text(
-                                                                      "${recomend.releaseDate!.year}"),
+                                                                  trailing:
+                                                                      Text(
+                                                                    "${recomend.releaseDate!.year}",
+                                                                    style: GoogleFonts
+                                                                        .poppins(),
+                                                                  ),
                                                                 ),
                                                               )
                                                             : Center(
                                                                 child: Text(
-                                                                    "No Data Review..."),
+                                                                  "No Data Review...",
+                                                                  style: GoogleFonts
+                                                                      .poppins(),
+                                                                ),
                                                               );
                                                       },
                                                     ),
                                                   )
                                                 : Center(
                                                     child: Text(
-                                                        "There is no Review"),
+                                                      "There is no Recommendation",
+                                                      style:
+                                                          GoogleFonts.poppins(),
+                                                    ),
                                                   ));
                                       },
                                     )

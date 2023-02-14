@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -14,7 +15,10 @@ class TrendingPageView extends GetView<TrendingPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Trending Movie'),
+          title: Text(
+            'Trending Movie',
+            style: GoogleFonts.poppins(),
+          ),
           centerTitle: true,
         ),
         body: GetBuilder<TrendingPageController>(
@@ -27,8 +31,8 @@ class TrendingPageView extends GetView<TrendingPageController> {
                 onRefresh: () => c.refreshData(),
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 180,
-                      childAspectRatio: 1 / 2,
+                      maxCrossAxisExtent: 150,
+                      childAspectRatio: 1 / 1.8,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20),
                   itemCount: controller.listTrending.length,
@@ -39,7 +43,7 @@ class TrendingPageView extends GetView<TrendingPageController> {
                       children: [
                         Expanded(
                           child: Container(
-                            height: 400,
+                            height: 200,
                             width: 200,
                             child: GestureDetector(
                               onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
@@ -68,8 +72,18 @@ class TrendingPageView extends GetView<TrendingPageController> {
                             ),
                           ),
                         ),
-                        Text("${currentMovie.title}"),
-                        Text("${currentMovie.releaseDate!.year}")
+                        Text(
+                          "${currentMovie.title}",
+                          style: GoogleFonts.poppins(
+                              textStyle:
+                                  TextStyle(overflow: TextOverflow.ellipsis)),
+                        ),
+                        (currentMovie.releaseDate != "")
+                            ? Text(
+                                "(${currentMovie.releaseDate!.year})",
+                                style: GoogleFonts.poppins(),
+                              )
+                            : Text("Null", style: GoogleFonts.poppins())
                       ],
                     );
                   },
