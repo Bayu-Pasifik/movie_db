@@ -8,6 +8,8 @@ import 'package:movie_db/app/modules/home/controllers/upcoming_controller_contro
 import 'package:movie_db/app/modules/home/views/home_items_view.dart';
 import 'package:movie_db/app/modules/list_genre/controllers/list_genre_controller.dart';
 import 'package:movie_db/app/modules/list_genre/views/list_genre_view.dart';
+import 'package:movie_db/app/modules/search/controllers/search_controller.dart';
+import 'package:movie_db/app/modules/search/views/search_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import '../controllers/home_controller.dart';
 
@@ -20,12 +22,13 @@ class HomeView extends GetView<HomeController> {
     Get.find<TopController>();
     Get.find<PopularController>();
     Get.put(ListGenreController());
+    Get.put(SearchController());
     PersistentTabController _controller;
     _controller = PersistentTabController(initialIndex: 0);
     List<Widget> _buildScreens() {
       return [
         HomeItemsView(),
-        Container(width: 200, height: 200, child: Text("Search")),
+        SearchView(),
         Container(width: 200, height: 200, child: Text("Watch List")),
         ListGenreView(),
       ];

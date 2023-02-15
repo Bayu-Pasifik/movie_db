@@ -24,77 +24,94 @@ class CastView extends GetView<DetailPageController> {
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
-                return GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 150,
-                      childAspectRatio: 1 / 1.8,
-                      crossAxisSpacing: 40,
-                      mainAxisSpacing: 30),
-                  itemCount: controller.cast.length,
-                  itemBuilder: (context, index) {
-                    MovieCast cast = controller.cast[index];
-                    return GestureDetector(
-                      onTap: () {},
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: Container(
-                                width: 200,
-                                height: 200,
-                                child: (cast.profilePath != null)
-                                    ? CachedNetworkImage(
-                                        imageUrl:
-                                            "https://image.tmdb.org/t/p/original${cast.profilePath}",
-                                        imageBuilder:
-                                            (context, imageProvider) =>
-                                                CircleAvatar(
-                                          child: Container(
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover),
-                                            ),
-                                          ),
-                                        ),
-                                        progressIndicatorBuilder:
-                                            (context, url, downloadProgress) =>
-                                                Center(
-                                          child: CircularProgressIndicator(
-                                              value: downloadProgress.progress),
-                                        ),
-                                        errorWidget: (context, url, error) =>
-                                            Image.asset(
-                                                "assets/images/Image_not_available.png"),
+                return (controller.cast.length != 0)
+                    ? GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithMaxCrossAxisExtent(
+                                maxCrossAxisExtent: 150,
+                                childAspectRatio: 1 / 1.8,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 20),
+                        itemCount: controller.cast.length,
+                        itemBuilder: (context, index) {
+                          MovieCast cast = controller.cast[index];
+                          return GestureDetector(
+                            onTap: () {},
+                            child: Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                      width: 200,
+                                      height: 200,
+                                      child: (cast.profilePath != null)
+                                          ? CachedNetworkImage(
+                                              imageUrl:
+                                                  "https://image.tmdb.org/t/p/original${cast.profilePath}",
+                                              imageBuilder:
+                                                  (context, imageProvider) =>
+                                                      CircleAvatar(
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                        image: imageProvider,
+                                                        fit: BoxFit.cover),
+                                                  ),
+                                                ),
+                                              ),
+                                              progressIndicatorBuilder:
+                                                  (context, url,
+                                                          downloadProgress) =>
+                                                      Center(
+                                                child:
+                                                    CircularProgressIndicator(
+                                                        value: downloadProgress
+                                                            .progress),
+                                              ),
+                                              errorWidget: (context, url,
+                                                      error) =>
+                                                  Image.asset(
+                                                      "assets/images/Image_not_available.png"),
+                                            )
+                                          : CircleAvatar(
+                                              child: Image.asset(
+                                                  "assets/images/Image_not_available.png"),
+                                            )),
+                                ),
+                                Text(
+                                  "${cast.originalName}",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "As",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                                SizedBox(
+                                  height: 10,
+                                ),
+                                (cast.character != "")
+                                    ? Text(
+                                        "${cast.character}",
+                                        style: GoogleFonts.poppins(),
                                       )
-                                    : CircleAvatar(
-                                        child: Image.asset(
-                                            "assets/images/Image_not_available.png"),
-                                      )),
-                          ),
-                          Text(
-                            "${cast.originalName}",
-                            style: GoogleFonts.poppins(),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "As",
-                            style: GoogleFonts.poppins(),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "${cast.character}",
-                            style: GoogleFonts.poppins(),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                );
+                                    : Text(
+                                        "Null",
+                                        style: GoogleFonts.poppins(),
+                                      )
+                              ],
+                            ),
+                          );
+                        },
+                      )
+                    : Center(
+                        child: Text(
+                          "There Is No Data Cast",
+                          style: GoogleFonts.poppins(),
+                        ),
+                      );
               }
             }
             return Center(

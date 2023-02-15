@@ -46,27 +46,32 @@ class GenreResultView extends GetView<GenreResultController> {
                             child: GestureDetector(
                               onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
                                   arguments: currentMovie),
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://image.tmdb.org/t/p/original/${currentMovie.posterPath}",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) => Center(
-                                  child: CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        "assets/images/Image_not_available.png"),
-                              ),
+                              child: (currentMovie.posterPath != null)
+                                  ? CachedNetworkImage(
+                                      imageUrl:
+                                          "https://image.tmdb.org/t/p/original/${currentMovie.posterPath}",
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
+                                        ),
+                                      ),
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                              "assets/images/Image_not_available.png"),
+                                    )
+                                  : Image.asset(
+                                      "assets/images/Image_not_available.png"),
                             ),
                           ),
                         ),
@@ -78,7 +83,7 @@ class GenreResultView extends GetView<GenreResultController> {
                         ),
                         (currentMovie.releaseDate != "")
                             ? Text(
-                                "(${currentMovie.releaseDate!.year})",
+                                "(${currentMovie.releaseDate?.year})",
                                 style: GoogleFonts.poppins(),
                               )
                             : Text(

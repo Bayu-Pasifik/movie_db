@@ -8,6 +8,8 @@ import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/list_genre/bindings/list_genre_binding.dart';
 import '../modules/list_genre/views/list_genre_view.dart';
+import '../modules/search/bindings/search_binding.dart';
+import '../modules/search/views/search_view.dart';
 import '../modules/trending_page/bindings/trending_page_binding.dart';
 import '../modules/trending_page/views/trending_page_view.dart';
 
@@ -43,6 +45,11 @@ class AppPages {
       name: _Paths.TRENDING_PAGE,
       page: () => const TrendingPageView(),
       binding: TrendingPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.SEARCH,
+      page: () => const SearchView(),
+      binding: SearchBinding(),
     ),
   ];
 }

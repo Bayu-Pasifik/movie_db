@@ -18,3 +18,5 @@ String trending =
 String genreMovie =
     "https://api.themoviedb.org/3/genre/movie/list?api_key=$apikey&language=en-US";
 
+String searchMov =
+    "https://api.themoviedb.org/3/search/movie?api_key=$apikey&language=en-US";

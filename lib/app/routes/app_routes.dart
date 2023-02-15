@@ -8,6 +8,8 @@ abstract class Routes {
   static const LIST_GENRE = _Paths.LIST_GENRE;
   static const GENRE_RESULT = _Paths.GENRE_RESULT;
   static const TRENDING_PAGE = _Paths.TRENDING_PAGE;
+  static const SEACRCH = _Paths.SEACRCH;
+  static const SEARCH = _Paths.SEARCH;
 }
 
 abstract class _Paths {
@@ -17,4 +19,6 @@ abstract class _Paths {
   static const LIST_GENRE = '/list-genre';
   static const GENRE_RESULT = '/genre-result';
   static const TRENDING_PAGE = '/trending-page';
+  static const SEACRCH = '/seacrch';
+  static const SEARCH = '/search';
 }

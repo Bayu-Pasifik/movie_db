@@ -91,8 +91,8 @@ class ReviewItemsView extends GetView<DetailPageController> {
                       )
                     : Center(
                         child: Text(
-                          "There is no Review",
-                          style: GoogleFonts.montserrat(),
+                          "There Is No Data Review",
+                          style: GoogleFonts.poppins(),
                         ),
                       ));
           },

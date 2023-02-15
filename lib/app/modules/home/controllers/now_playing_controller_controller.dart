@@ -21,8 +21,6 @@ class NowPlayingController extends GetxController {
       totalPage = json.decode(response.body)['total_pages'];
       var tempdata = data.map((e) => CurrentMovie.fromJson(e)).toList();
       current.addAll(tempdata);
-      print("page : $page");
-      print("total : $totalPage");
     }
     return current;
   }

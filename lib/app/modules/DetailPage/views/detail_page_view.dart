@@ -71,10 +71,12 @@ class DetailPageView extends GetView<DetailPageController> {
                                               fit: BoxFit.cover),
                                         ),
                                       ),
-                                      progressIndicatorBuilder: (context, url,
-                                              downloadProgress) =>
-                                          CircularProgressIndicator(
-                                              value: downloadProgress.progress),
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
                                       errorWidget: (context, url, error) =>
                                           Image.asset(
                                               "assets/images/Image_not_available.png"),
@@ -113,8 +115,8 @@ class DetailPageView extends GetView<DetailPageController> {
                               ),
                               // ! Container for name (movie title)
                               Container(
-                                width: context.width,
-                                height: 40,
+                                width: 400,
+                                height: 80,
                                 // color: Colors.green,
                                 child: Stack(
                                   children: [
@@ -126,6 +128,8 @@ class DetailPageView extends GetView<DetailPageController> {
                                                 alignment: Alignment.topCenter,
                                                 child: Text(
                                                   "${detail.title}",
+                                                  softWrap: true,
+                                                  maxLines: 2,
                                                   style: GoogleFonts.poppins(
                                                       fontWeight:
                                                           FontWeight.w600,
@@ -133,23 +137,32 @@ class DetailPageView extends GetView<DetailPageController> {
                                                 )),
                                           )
                                         : Positioned(
-                                            top: 10,
+                                            // top: 10,
                                             left: 100,
-                                            child: Text(
-                                              "${detail.title}",
-                                              style: GoogleFonts.poppins(
-                                                  fontWeight: FontWeight.w600,
-                                                  fontSize: 18,
-                                                  textStyle: TextStyle(
-                                                      overflow: TextOverflow
-                                                          .visible)),
+                                            child: Container(
+                                              width: context.width / 1.5,
+                                              height: 60,
+                                              child: Wrap(
+                                                children: [
+                                                  Text(
+                                                    "${detail.title}",
+                                                    softWrap: true,
+                                                    maxLines: 4,
+                                                    style: GoogleFonts.poppins(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontSize: 18,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
                                             )),
                                   ],
                                 ),
                               ),
                               // ! container for Release date dkk
                               Container(
-                                width: Get.width,
+                                width: context.width,
                                 height: 30,
                                 // color: Colors.green,
                                 child: Stack(
@@ -256,14 +269,21 @@ class DetailPageView extends GetView<DetailPageController> {
                               // ! tabbar view
                               Expanded(
                                 child: Container(
-                                  width: Get.width,
-                                  height: Get.height,
+                                  width: context.width,
+                                  height: context.height,
                                   child: TabBarView(children: [
                                     // ! overview
-                                    Text(
-                                      "${detailMovie.overview}",
-                                      style: GoogleFonts.poppins(),
-                                    ),
+                                    (detailMovie.overview != "")
+                                        ? Text(
+                                            "${detailMovie.overview}",
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                        : Center(
+                                            child: Text(
+                                              "There Is No Data Overview",
+                                              style: GoogleFonts.poppins(),
+                                            ),
+                                          ),
                                     ReviewItemsView(
                                         id: detailMovie.id.toString()),
                                     CastView(id: detailMovie.id.toString()),
@@ -277,95 +297,80 @@ class DetailPageView extends GetView<DetailPageController> {
                                                 detailMovie.id.toString()),
                                             onRefresh: () => c.refreshRec(
                                                 detailMovie.id.toString()),
-                                            child: (c.reviews.length != [])
-                                                ? GestureDetector(
-                                                    onTap: () => Get.toNamed(
-                                                        Routes.DETAIL_PAGE,
-                                                        arguments: detail),
-                                                    child: ListView.separated(
-                                                      itemCount: c.recom.length,
-                                                      separatorBuilder:
-                                                          (context, index) {
-                                                        return SizedBox(
-                                                          height: 20,
-                                                        );
-                                                      },
-                                                      itemBuilder:
-                                                          (context, index) {
-                                                        CurrentMovie recomend =
-                                                            c.recom[index];
-                                                        return (c.recom
-                                                                .isNotEmpty)
-                                                            ? Material(
-                                                                elevation: 1,
-                                                                child: ListTile(
-                                                                  onTap: () => Get.toNamed(
-                                                                      Routes
-                                                                          .DETAIL_PAGE,
-                                                                      arguments:
-                                                                          detail),
-                                                                  leading:
-                                                                      Container(
-                                                                    width: 100,
-                                                                    height: 200,
-                                                                    child:
-                                                                        CachedNetworkImage(
-                                                                      imageUrl:
-                                                                          "https://image.tmdb.org/t/p/original${recomend.posterPath}",
-                                                                      progressIndicatorBuilder: (context,
-                                                                              url,
-                                                                              downloadProgress) =>
+                                            child: (c.recom.length != 0)
+                                                ? ListView.separated(
+                                                    itemCount: c.recom.length,
+                                                    separatorBuilder:
+                                                        (context, index) {
+                                                      return SizedBox(
+                                                        height: 20,
+                                                      );
+                                                    },
+                                                    itemBuilder:
+                                                        (context, index) {
+                                                      CurrentMovie recomend =
+                                                          c.recom[index];
+                                                      return Material(
+                                                        elevation: 1,
+                                                        child: ListTile(
+                                                          leading: Container(
+                                                            width: 100,
+                                                            height: 200,
+                                                            child: (recomend
+                                                                        .posterPath !=
+                                                                    null)
+                                                                ? CachedNetworkImage(
+                                                                    imageUrl:
+                                                                        "https://image.tmdb.org/t/p/original${recomend.posterPath}",
+                                                                    progressIndicatorBuilder: (context,
+                                                                            url,
+                                                                            downloadProgress) =>
+                                                                        Center(
+                                                                      child:
                                                                           Center(
-                                                                        child:
-                                                                            Center(
-                                                                          child:
-                                                                              CircularProgressIndicator(value: downloadProgress.progress),
-                                                                        ),
+                                                                        child: CircularProgressIndicator(
+                                                                            value:
+                                                                                downloadProgress.progress),
                                                                       ),
-                                                                      errorWidget: (context,
-                                                                              url,
-                                                                              error) =>
-                                                                          Image.asset(
-                                                                              "assets/images/Image_not_available.png"),
                                                                     ),
-                                                                  ),
-                                                                  title: Text(
-                                                                    "${recomend.title}",
-                                                                    style: GoogleFonts
-                                                                        .poppins(),
-                                                                  ),
-                                                                  subtitle: Row(
-                                                                    children: [
-                                                                      Icon(CupertinoIcons
-                                                                          .star),
-                                                                      Text(
-                                                                        "${recomend.voteAverage ?? "NaN"}",
-                                                                        style: GoogleFonts
-                                                                            .poppins(),
-                                                                      ),
-                                                                    ],
-                                                                  ),
-                                                                  trailing:
-                                                                      Text(
-                                                                    "${recomend.releaseDate!.year}",
-                                                                    style: GoogleFonts
-                                                                        .poppins(),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : Center(
-                                                                child: Text(
-                                                                  "No Data Review...",
-                                                                  style: GoogleFonts
-                                                                      .poppins(),
-                                                                ),
-                                                              );
-                                                      },
-                                                    ),
+                                                                    errorWidget: (context,
+                                                                            url,
+                                                                            error) =>
+                                                                        Image.asset(
+                                                                            "assets/images/Image_not_available.png"),
+                                                                  )
+                                                                : Image.asset(
+                                                                    "assets/images/Image_not_available.png"),
+                                                          ),
+                                                          title: Text(
+                                                            "${recomend.title}",
+                                                            style: GoogleFonts
+                                                                .poppins(),
+                                                          ),
+                                                          subtitle: Row(
+                                                            children: [
+                                                              Icon(
+                                                                  CupertinoIcons
+                                                                      .star),
+                                                              Text(
+                                                                "${recomend.voteAverage ?? "NaN"}",
+                                                                style: GoogleFonts
+                                                                    .poppins(),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          trailing: Text(
+                                                            "${recomend.releaseDate!.year}",
+                                                            style: GoogleFonts
+                                                                .poppins(),
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
                                                   )
                                                 : Center(
                                                     child: Text(
-                                                      "There is no Recommendation",
+                                                      "There is no data Recommendation",
                                                       style:
                                                           GoogleFonts.poppins(),
                                                     ),
