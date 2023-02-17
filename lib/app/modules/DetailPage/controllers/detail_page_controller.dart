@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/api.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
@@ -8,6 +9,7 @@ import 'package:movie_db/app/data/models/MovieCast.dart';
 import 'dart:convert';
 
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
+import 'package:movie_db/app/data/models/SaveMovie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DetailPageController extends GetxController {
@@ -25,6 +27,9 @@ class DetailPageController extends GetxController {
   var pageRecom;
   var halRecom = 1.obs;
   List<dynamic> recom = [];
+
+  // ! save to firebase
+  final _db = FirebaseFirestore.instance;
 
   Future<DetailMovie> detailMovie(String id) async {
     Uri url = Uri.parse(
@@ -112,6 +117,30 @@ class DetailPageController extends GetxController {
     } else {
       return recomRefresh.loadNoData();
     }
+  }
+
+//! method for saving data
+
+  createSave(SaveMovie saveMovie) {
+    _db
+        .collection("savedFilm")
+        .add(saveMovie.toJason())
+        .whenComplete(() => Get.snackbar(
+            "Success", "Your data has been successfully stored",
+            colorText: Colors.white,
+            snackPosition: SnackPosition.BOTTOM,
+            duration: Duration(seconds: 3),
+            backgroundColor: Colors.green[400]))
+        .catchError((error, snackTree) {
+      Get.snackbar(
+        "Error",
+        "Something went Wrong, please try again",
+        colorText: Colors.red[600],
+        duration: Duration(seconds: 3),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      print(error.toString());
+    });
   }
 
   @override

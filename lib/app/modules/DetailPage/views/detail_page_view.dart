@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
+import 'package:movie_db/app/data/models/SaveMovie.dart';
 
 import 'package:movie_db/app/modules/DetailPage/views/cast_view.dart';
 import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
@@ -19,6 +20,15 @@ class DetailPageView extends GetView<DetailPageController> {
   @override
   Widget build(BuildContext context) {
     final CurrentMovie detail = Get.arguments;
+    DateTime now = DateTime.now();
+    final String date = now.toString().substring(0, 10);
+    final movie = SaveMovie(
+      name: detail.title.toString(),
+      rating: detail.voteAverage.toString(),
+      imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
+      createdAt: date,
+    );
+
     debugPrint(detail.id.toString());
     return GetBuilder<DetailPageController>(
       builder: (c) {
@@ -31,7 +41,11 @@ class DetailPageView extends GetView<DetailPageController> {
               elevation: 0,
               centerTitle: true,
               actions: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.bookmark))
+                IconButton(
+                    onPressed: () {
+                      c.createSave(movie);
+                    },
+                    icon: Icon(Icons.bookmark))
               ],
             ),
             body: DefaultTabController(
