@@ -15,10 +15,15 @@ class WatchListController extends GetxController {
     final allMovie =
         snapshot.docs.map((e) => SaveMovie.fromSnapshot(e)).toList();
     update();
-    saved.addAll(allMovie);
+    var seen = Set<SaveMovie>();
+    saved = allMovie
+        .where(
+          (element) => seen.add(element),
+        )
+        .toList();
     print("Data saved : $saved");
     print("length saved : ${saved.length}");
-    update();
+    // update();
     return saved;
   }
 

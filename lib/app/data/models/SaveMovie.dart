@@ -7,6 +7,7 @@ class SaveMovie {
   final String rating;
   final String imageUrl;
   final String createdAt;
+  final String idMovie;
   // final String madeBy;
 
    SaveMovie({
@@ -15,6 +16,7 @@ class SaveMovie {
     required this.rating,
     required this.imageUrl,
     required this.createdAt,
+    required this.idMovie,
     // required this.madeBy
   });
 
@@ -24,6 +26,7 @@ class SaveMovie {
       "Rating": rating,
       "ImageUrl": imageUrl,
       "CreatedAt": createdAt,
+      "IdMovie": idMovie
       // "MadeBy": madeBy,
     };
   }
@@ -35,6 +38,8 @@ class SaveMovie {
       name: data["Name"], 
       rating: data["Rating"], 
       imageUrl: data["ImageUrl"], 
-      createdAt: data["CreatedAt"]);
+      createdAt: data["CreatedAt"],
+      idMovie: data["IdMovie"]
+      );
   }
 }

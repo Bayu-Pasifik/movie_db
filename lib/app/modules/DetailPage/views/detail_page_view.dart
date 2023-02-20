@@ -27,6 +27,7 @@ class DetailPageView extends GetView<DetailPageController> {
       rating: detail.voteAverage.toString(),
       imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
       createdAt: date,
+      idMovie: detail.id.toString()
     );
 
     debugPrint(detail.id.toString());

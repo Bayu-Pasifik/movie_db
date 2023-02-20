@@ -17,122 +17,122 @@ class WatchListView extends GetView<WatchListController> {
     return GetBuilder<WatchListController>(
       builder: (c) {
         return SafeArea(
-            child: (c.saved.length != 0 || c.saved != [])
-                ? SmartRefresher(
-                    controller: c.watchRefresh,
-                    onRefresh: () => c.refreshData(),
-                    child: ListView.builder(
-                      itemCount: c.saved.length,
-                      itemBuilder: (context, index) {
-                        SaveMovie saveMovie = c.saved[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Get.toNamed(Routes.DETAIL_PAGE,
-                                arguments: {"id": saveMovie.id});
-                          },
-                          child: Row(
-                            children: [
-                              // ! image on the left
-                              Container(
-                                width: 100,
-                                height: 150,
-                                child: CachedNetworkImage(
-                                  imageUrl: "${saveMovie.imageUrl}",
-                                  imageBuilder: (context, imageProvider) =>
-                                      Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      image: DecorationImage(
-                                          image: imageProvider,
-                                          fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: CircularProgressIndicator(
-                                        value: downloadProgress.progress),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Image.asset(
-                                          "assets/images/Image_not_available.png"),
+            child: SmartRefresher(
+          controller: c.watchRefresh,
+          onRefresh: () => c.refreshData(),
+          enablePullUp: false,
+          // enablePullDown: true,
+          child: (c.saved.isNotEmpty || c.saved != [])
+              ? ListView.builder(
+                  padding: EdgeInsets.all(10),
+                  itemCount: c.saved.length,
+                  itemBuilder: (context, index) {
+                    SaveMovie saveMovie = c.saved[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(Routes.DETAIL_WATCH_LIST,
+                            arguments: saveMovie.idMovie);
+                      },
+                      child: Row(
+                        children: [
+                          // ! image on the left
+                          Container(
+                            width: 100,
+                            height: 150,
+                            child: CachedNetworkImage(
+                              imageUrl: "${saveMovie.imageUrl}",
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  image: DecorationImage(
+                                      image: imageProvider, fit: BoxFit.cover),
                                 ),
                               ),
-                              Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                      width: context.width,
-                                      height: 150,
-                                      decoration: BoxDecoration(
-                                          color: Colors.grey[100],
-                                          borderRadius: BorderRadius.all(
-                                              Radius.circular(8))),
-                                      child: Column(
+                              progressIndicatorBuilder:
+                                  (context, url, downloadProgress) => Center(
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                              ),
+                              errorWidget: (context, url, error) => Image.asset(
+                                  "assets/images/Image_not_available.png"),
+                            ),
+                          ),
+                          Expanded(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Container(
+                                  width: context.width,
+                                  height: 150,
+                                  decoration: BoxDecoration(
+                                      color: Colors.grey[200],
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(8))),
+                                  child: Column(
+                                    children: [
+                                      Row(
                                         children: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  "${saveMovie.name}",
-                                                  style: GoogleFonts.poppins(
-                                                      textStyle: TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis)),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(CupertinoIcons.star),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text(
-                                                "${saveMovie.rating}",
-                                                style: GoogleFonts.poppins(),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(CupertinoIcons.calendar),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text(
-                                                "${saveMovie.createdAt}",
-                                                style: GoogleFonts.poppins(),
-                                              )
-                                            ],
+                                          Expanded(
+                                            child: Text(
+                                              "${saveMovie.name}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      overflow: TextOverflow
+                                                          .ellipsis)),
+                                            ),
                                           ),
                                         ],
-                                      )),
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      LottieBuilder.asset("assets/lottie/popcorn.json"),
-                      Text(
-                        "No Data Yet",
-                        style: GoogleFonts.poppins(fontSize: 20),
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(CupertinoIcons.star),
+                                          const SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            "${saveMovie.rating}",
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                        ],
+                                      ),
+                                      const SizedBox(
+                                        height: 10,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Icon(CupertinoIcons.calendar),
+                                          const SizedBox(
+                                            width: 3,
+                                          ),
+                                          Text(
+                                            "${saveMovie.createdAt}",
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  )),
+                            ),
+                          )
+                        ],
                       ),
-                    ],
-                  ));
+                    );
+                  },
+                )
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LottieBuilder.asset("assets/lottie/popcorn.json"),
+                    Text(
+                      "No Data Yet",
+                      style: GoogleFonts.poppins(fontSize: 20),
+                    ),
+                  ],
+                ),
+        ));
       },
     );
   }
