@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 
 import '../modules/DetailPage/bindings/detail_page_binding.dart';
 import '../modules/DetailPage/views/detail_page_view.dart';
+import '../modules/Login_Page/bindings/login_page_binding.dart';
+import '../modules/Login_Page/views/login_page_view.dart';
 import '../modules/genre_result/bindings/genre_result_binding.dart';
 import '../modules/genre_result/views/genre_result_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -50,6 +52,11 @@ class AppPages {
       name: _Paths.SEARCH,
       page: () => const SearchView(),
       binding: SearchBinding(),
+    ),
+    GetPage(
+      name: _Paths.LOGIN_PAGE,
+      page: () => const LoginPageView(),
+      binding: LoginPageBinding(),
     ),
   ];
 }

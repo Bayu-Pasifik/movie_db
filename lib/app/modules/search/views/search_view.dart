@@ -29,6 +29,7 @@ class SearchView extends GetView<SearchController> {
               physics: NeverScrollableScrollPhysics(),
               children: [
                 TextField(
+                  focusNode: FocusNode(canRequestFocus: false),
                   autofocus: false,
                   controller: c.searchController,
                   decoration: InputDecoration(

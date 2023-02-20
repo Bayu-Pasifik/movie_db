@@ -128,16 +128,18 @@ class DetailPageController extends GetxController {
         .whenComplete(() => Get.snackbar(
             "Success", "Your data has been successfully stored",
             colorText: Colors.white,
-            snackPosition: SnackPosition.BOTTOM,
-            duration: Duration(seconds: 3),
+            snackPosition: SnackPosition.TOP,
+            duration: Duration(seconds: 2),
             backgroundColor: Colors.green[400]))
+        // ignore: body_might_complete_normally_catch_error
         .catchError((error, snackTree) {
       Get.snackbar(
         "Error",
         "Something went Wrong, please try again",
-        colorText: Colors.red[600],
-        duration: Duration(seconds: 3),
-        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red[600],
+        colorText: Colors.white,
+        duration: Duration(seconds: 2),
+        snackPosition: SnackPosition.TOP,
       );
       print(error.toString());
     });

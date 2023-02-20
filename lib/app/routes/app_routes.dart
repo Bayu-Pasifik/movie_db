@@ -10,6 +10,7 @@ abstract class Routes {
   static const TRENDING_PAGE = _Paths.TRENDING_PAGE;
   static const SEACRCH = _Paths.SEACRCH;
   static const SEARCH = _Paths.SEARCH;
+  static const LOGIN_PAGE = _Paths.LOGIN_PAGE;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const TRENDING_PAGE = '/trending-page';
   static const SEACRCH = '/seacrch';
   static const SEARCH = '/search';
+  static const LOGIN_PAGE = '/login-page';
 }
