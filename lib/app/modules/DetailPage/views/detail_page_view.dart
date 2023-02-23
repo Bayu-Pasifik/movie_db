@@ -10,6 +10,7 @@ import 'package:movie_db/app/data/models/SaveMovie.dart';
 
 import 'package:movie_db/app/modules/DetailPage/views/cast_view.dart';
 import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
+import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -23,14 +24,11 @@ class DetailPageView extends GetView<DetailPageController> {
     DateTime now = DateTime.now();
     final String date = now.toString().substring(0, 10);
     final movie = SaveMovie(
-      name: detail.title.toString(),
-      rating: detail.voteAverage.toString(),
-      imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
-      createdAt: date,
-      idMovie: detail.id.toString()
-    );
-
-    debugPrint(detail.id.toString());
+        name: detail.title.toString(),
+        rating: detail.voteAverage.toString(),
+        imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
+        createdAt: date,
+        idMovie: detail.id.toString());
     return GetBuilder<DetailPageController>(
       builder: (c) {
         return Scaffold(
@@ -45,6 +43,8 @@ class DetailPageView extends GetView<DetailPageController> {
                 IconButton(
                     onPressed: () {
                       c.createSave(movie);
+                      // Get.delete<WatchListController>(force: true);
+                      // Get.offNamed(Routes.WATCH_LIST);
                     },
                     icon: Icon(Icons.bookmark))
               ],

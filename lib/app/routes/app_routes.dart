@@ -12,6 +12,7 @@ abstract class Routes {
   static const SEARCH = _Paths.SEARCH;
   static const LOGIN_PAGE = _Paths.LOGIN_PAGE;
   static const DETAIL_WATCH_LIST = _Paths.DETAIL_WATCH_LIST;
+  static const WATCH_LIST = _Paths.WATCH_LIST;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const SEARCH = '/search';
   static const LOGIN_PAGE = '/login-page';
   static const DETAIL_WATCH_LIST = '/detail-watch-list';
+  static const WATCH_LIST = '/watch-list';
 }

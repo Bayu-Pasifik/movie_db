@@ -10,6 +10,7 @@ import 'dart:convert';
 
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
 import 'package:movie_db/app/data/models/SaveMovie.dart';
+import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class DetailPageController extends GetxController {
@@ -156,7 +157,18 @@ class DetailPageController extends GetxController {
   void onInit() {
     final detailmov = Get.arguments as CurrentMovie;
     detailfilm = detailMovie(detailmov.id.toString());
-
     super.onInit();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    Get.put(() => WatchListController());
+  }
+
+  @override
+  InternalFinalCallback<void> get onDelete {
+    Get.put(() => WatchListController());
+    return super.onDelete;
   }
 }

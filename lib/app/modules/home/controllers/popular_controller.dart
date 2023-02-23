@@ -48,4 +48,10 @@ class PopularController extends GetxController {
       return popularRefresh.loadNoData();
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    popularRefresh.dispose();
+  }
 }

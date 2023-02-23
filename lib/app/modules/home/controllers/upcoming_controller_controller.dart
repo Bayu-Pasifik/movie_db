@@ -51,7 +51,8 @@ class UpcomingController extends GetxController {
   }
 
   @override
-  void onInit() {
-    super.onInit();
+  void dispose() {
+    super.dispose();
+    upcommingRefresh.dispose();
   }
 }

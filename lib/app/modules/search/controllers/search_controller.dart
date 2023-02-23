@@ -70,9 +70,9 @@ class SearchController extends GetxController {
   }
 
   @override
-  void onClose() {
-    searchController.clear();
+  void dispose() {
+    super.dispose();
     searchController.dispose();
-    super.onClose();
+    searchRefresh.dispose();
   }
 }

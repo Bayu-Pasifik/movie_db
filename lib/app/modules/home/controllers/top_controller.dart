@@ -49,4 +49,10 @@ class TopController extends GetxController {
       return topRefresh.loadNoData();
     }
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    topRefresh.dispose();
+  }
 }

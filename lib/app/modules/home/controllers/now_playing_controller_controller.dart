@@ -8,7 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NowPlayingController extends GetxController {
   var hal = 1.obs;
-  RefreshController currentRefresh = RefreshController(initialRefresh: true);
+  RefreshController nowPlayingRefresh = RefreshController(initialRefresh: true);
   List<dynamic> current = [];
   var page;
   var totalPage;
@@ -26,14 +26,14 @@ class NowPlayingController extends GetxController {
   }
 
   void refreshData() async {
-    if (currentRefresh.initialRefresh == true) {
+    if (nowPlayingRefresh.initialRefresh == true) {
       hal.value = 1;
       current = [];
       await getCurrent(hal.value);
       update();
-      return currentRefresh.refreshCompleted();
+      return nowPlayingRefresh.refreshCompleted();
     } else {
-      return currentRefresh.refreshFailed();
+      return nowPlayingRefresh.refreshFailed();
     }
   }
 
@@ -42,9 +42,9 @@ class NowPlayingController extends GetxController {
       hal.value = hal.value + 1;
       await getCurrent(hal.value);
       update();
-      return currentRefresh.loadComplete();
+      return nowPlayingRefresh.loadComplete();
     } else {
-      return currentRefresh.loadNoData();
+      return nowPlayingRefresh.loadNoData();
     }
   }
 
@@ -52,5 +52,11 @@ class NowPlayingController extends GetxController {
   void onInit() {
     super.onInit();
     // currentMovie = getCurrent();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
   }
 }

@@ -4,27 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
-import 'package:movie_db/app/modules/DetailPage/controllers/detail_page_controller.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
 import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
 import 'package:movie_db/app/modules/home/views/top_view.dart';
 import 'package:movie_db/app/modules/home/views/upcoming_view.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
-
-import '../controllers/now_playing_controller_controller.dart';
-import '../controllers/popular_controller.dart';
-import '../controllers/top_controller.dart';
-import '../controllers/upcoming_controller_controller.dart';
 import 'now_playing_view.dart';
 
 class HomeItemsView extends GetView<HomeController> {
   const HomeItemsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    Get.find<UpcomingController>();
-    Get.find<NowPlayingController>();
-    Get.find<TopController>();
-    Get.find<PopularController>();
     return Scaffold(
         body: DefaultTabController(
       length: 4,

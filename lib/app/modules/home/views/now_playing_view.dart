@@ -15,7 +15,7 @@ class NowPlayingView extends GetView<NowPlayingController> {
     return GetBuilder<NowPlayingController>(
       builder: (c) {
         return SmartRefresher(
-            controller: c.currentRefresh,
+            controller: c.nowPlayingRefresh,
             enablePullDown: true,
             enablePullUp: true,
             onLoading: () => c.loadData(),
@@ -36,8 +36,10 @@ class NowPlayingView extends GetView<NowPlayingController> {
                         width: 200,
                         height: 200,
                         child: GestureDetector(
-                          onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                              arguments: currentMovie),
+                          onTap: () {
+                            Get.toNamed(Routes.DETAIL_PAGE,
+                                arguments: currentMovie);
+                          },
                           child: CachedNetworkImage(
                             imageUrl:
                                 "https://image.tmdb.org/t/p/original${currentMovie.posterPath}",

@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController {
+  // late PersistentTabController persistanceController;
+  Rx<int> tabIndex = 0.obs;
   var hal = 1.obs;
   RefreshController trendingRefresh = RefreshController(initialRefresh: true);
   List<dynamic> listTrending = [];
@@ -52,9 +54,20 @@ class HomeController extends GetxController {
     }
   }
 
+  void chagePage(int index) {
+    tabIndex.value = index;
+    update();
+  }
+
   @override
   void onInit() {
     super.onInit();
     trendingMovie = getCurrent();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    trendingRefresh.dispose();
   }
 }

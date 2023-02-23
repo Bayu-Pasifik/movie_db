@@ -16,6 +16,8 @@ import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/trending_page/bindings/trending_page_binding.dart';
 import '../modules/trending_page/views/trending_page_view.dart';
+import '../modules/watch_list/bindings/watch_list_binding.dart';
+import '../modules/watch_list/views/watch_list_view.dart';
 
 part 'app_routes.dart';
 
@@ -64,6 +66,11 @@ class AppPages {
       name: _Paths.DETAIL_WATCH_LIST,
       page: () => const DetailWatchListView(),
       binding: DetailWatchListBinding(),
+    ),
+    GetPage(
+      name: _Paths.WATCH_LIST,
+      page: () => const WatchListView(),
+      binding: WatchListBinding(),
     ),
   ];
 }
