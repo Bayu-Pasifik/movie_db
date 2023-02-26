@@ -149,13 +149,13 @@ class DetailPageController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-    final detailmov = Get.arguments as CurrentMovie;
+    final detailmov = Get.arguments["movie"] as CurrentMovie;
     detailMovie(detailmov.id.toString());
   }
 
   @override
   void onInit() {
-    final detailmov = Get.arguments as CurrentMovie;
+    final detailmov = Get.arguments["movie"] as CurrentMovie;
     detailfilm = detailMovie(detailmov.id.toString());
     super.onInit();
   }

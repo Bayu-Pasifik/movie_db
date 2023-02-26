@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,8 @@ class DetailPageView extends GetView<DetailPageController> {
   const DetailPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final CurrentMovie detail = Get.arguments;
+    final CurrentMovie detail = Get.arguments["movie"];
+    final String userCredential = Get.arguments["user"];
     DateTime now = DateTime.now();
     final String date = now.toString().substring(0, 10);
     final movie = SaveMovie(
@@ -28,7 +30,8 @@ class DetailPageView extends GetView<DetailPageController> {
         rating: detail.voteAverage.toString(),
         imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
         createdAt: date,
-        idMovie: detail.id.toString());
+        idMovie: detail.id.toString(),
+        madeBy: userCredential);
     return GetBuilder<DetailPageController>(
       builder: (c) {
         return Scaffold(

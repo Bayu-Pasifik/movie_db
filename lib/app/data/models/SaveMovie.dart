@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class SaveMovie {
   final String? id;
   final String name;
@@ -8,17 +7,16 @@ class SaveMovie {
   final String imageUrl;
   final String createdAt;
   final String idMovie;
-  // final String madeBy;
+  final String madeBy;
 
-   SaveMovie({
-    this.id,
-    required this.name,
-    required this.rating,
-    required this.imageUrl,
-    required this.createdAt,
-    required this.idMovie,
-    // required this.madeBy
-  });
+  SaveMovie(
+      {this.id,
+      required this.name,
+      required this.rating,
+      required this.imageUrl,
+      required this.createdAt,
+      required this.idMovie,
+      required this.madeBy});
 
   Map<String, dynamic> toJason() {
     return {
@@ -26,20 +24,21 @@ class SaveMovie {
       "Rating": rating,
       "ImageUrl": imageUrl,
       "CreatedAt": createdAt,
-      "IdMovie": idMovie
-      // "MadeBy": madeBy,
+      "IdMovie": idMovie,
+      "MadeBy": madeBy,
     };
   }
 
-  factory SaveMovie.fromSnapshot(DocumentSnapshot<Map<String,dynamic>> document){
+  factory SaveMovie.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> document) {
     final data = document.data()!;
-     return SaveMovie(
-      id: document.id,
-      name: data["Name"], 
-      rating: data["Rating"], 
-      imageUrl: data["ImageUrl"], 
-      createdAt: data["CreatedAt"],
-      idMovie: data["IdMovie"]
-      );
+    return SaveMovie(
+        id: document.id,
+        name: data["Name"],
+        rating: data["Rating"],
+        imageUrl: data["ImageUrl"],
+        createdAt: data["CreatedAt"],
+        idMovie: data["IdMovie"],
+        madeBy: data["MadeBy"]);
   }
 }

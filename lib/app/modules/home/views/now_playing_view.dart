@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -9,7 +10,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NowPlayingView extends GetView<NowPlayingController> {
-  const NowPlayingView({Key? key}) : super(key: key);
+  final String userData;
+  const NowPlayingView({Key? key,required this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NowPlayingController>(
@@ -38,7 +40,10 @@ class NowPlayingView extends GetView<NowPlayingController> {
                         child: GestureDetector(
                           onTap: () {
                             Get.toNamed(Routes.DETAIL_PAGE,
-                                arguments: currentMovie);
+                                arguments: {
+                                  "movie":currentMovie,
+                                  "user":userData
+                                });
                           },
                           child: CachedNetworkImage(
                             imageUrl:

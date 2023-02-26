@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:movie_db/app/data/models/UserModel.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 
-import '../controllers/login_page_controller.dart';
+import '../controllers/register_page_controller.dart';
 
-class LoginPageView extends GetView<LoginPageController> {
-  const LoginPageView({Key? key}) : super(key: key);
+class RegisterPageView extends GetView<RegisterPageController> {
+  const RegisterPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,17 @@ class LoginPageView extends GetView<LoginPageController> {
                 hintText: "Email",
                 prefixIcon: Icon(CupertinoIcons.mail),
                 label: Text("Email", style: GoogleFonts.poppins())),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          TextField(
+            controller: controller.usernameC,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                hintText: "Username",
+                prefixIcon: Icon(CupertinoIcons.person),
+                label: Text("Username", style: GoogleFonts.poppins())),
           ),
           SizedBox(
             height: 20,
@@ -54,26 +66,26 @@ class LoginPageView extends GetView<LoginPageController> {
           ),
           ElevatedButton(
               onPressed: () {
-                controller.loginAccount(
-                    controller.emailC.text, controller.passwordC.text);
+                controller.createAccount(controller.emailC.text,
+                    controller.usernameC.text, controller.passwordC.text);
               },
               child: Text(
-                "Login",
+                "Register",
                 style: GoogleFonts.poppins(),
               )),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Text(
-                "Not have account ?",
+                "Have account ?",
                 style: GoogleFonts.poppins(),
               ),
               TextButton(
                   onPressed: () {
-                    Get.toNamed(Routes.REGISTER_PAGE);
+                    Get.toNamed(Routes.LOGIN_PAGE);
                   },
                   child: Text(
-                    "Register here",
+                    "Login here",
                     style: GoogleFonts.poppins(),
                   ))
             ],

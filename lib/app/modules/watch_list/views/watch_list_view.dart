@@ -13,7 +13,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/watch_list_controller.dart';
 
 class WatchListView extends GetView<WatchListController> {
-  const WatchListView({Key? key}) : super(key: key);
+  final String? userData;
+  const WatchListView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,8 +23,6 @@ class WatchListView extends GetView<WatchListController> {
           elevation: 0,
         ),
         body: GetBuilder<WatchListController>(
-          // autoRemove: true,
-          // init: WatchListController(),
           builder: (c) {
             return SmartRefresher(
               controller: c.watchRefresh,

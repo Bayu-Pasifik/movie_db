@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_db/app/data/api.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:http/http.dart' as http;
@@ -15,6 +17,7 @@ class HomeController extends GetxController {
   late Future<List> trendingMovie;
   var page;
   var totalPage;
+  var message = ''.obs;
   Future<List> getCurrent() async {
     Uri url = Uri.parse('$trending');
     var response = await http.get(url);
@@ -57,6 +60,19 @@ class HomeController extends GetxController {
   void chagePage(int index) {
     tabIndex.value = index;
     update();
+  }
+
+  String greetings() {
+    DateTime now = DateTime.now();
+    var timeNow = int.parse(DateFormat('kk').format(now));
+    if (timeNow <= 12) {
+      return message.value = 'Good Morning';
+    } else if ((timeNow > 12) && timeNow <= 16) {
+      return message.value = 'Good Afternoon';
+    } else if ((timeNow > 16) && (timeNow < 20)) {
+      return message.value = 'Good Evening';
+    }
+    return 'Good Night';
   }
 
   @override

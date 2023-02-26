@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -15,6 +16,7 @@ class HomeItemsView extends GetView<HomeController> {
   const HomeItemsView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final String user = Get.arguments;
     return Scaffold(
         body: DefaultTabController(
       length: 4,
@@ -24,6 +26,16 @@ class HomeItemsView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                children: [
+                  Text("${controller.greetings()} ",
+                      style: GoogleFonts.oleoScript(
+                          fontWeight: FontWeight.w300, fontSize: 22)),
+                  Text("${user}",
+                      style: GoogleFonts.oleoScript(
+                          fontWeight: FontWeight.w300, fontSize: 22))
+                ],
+              ),
               Text("What do you want to watch ?",
                   style: GoogleFonts.poppins(
                       fontWeight: FontWeight.w600, fontSize: 18)),
@@ -161,7 +173,7 @@ class HomeItemsView extends GetView<HomeController> {
               ),
               Expanded(
                 child: TabBarView(children: [
-                  NowPlayingView(),
+                  NowPlayingView(userData: user),
                   UpcomingView(),
                   TopView(),
                   PopularFilmView()

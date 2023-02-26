@@ -1,28 +1,34 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_db/app/data/models/UserModel.dart';
-import 'package:movie_db/app/routes/app_pages.dart';
 
-class LoginPageController extends GetxController {
+class RegisterPageController extends GetxController {
   var isHidden = true.obs;
   final auth = FirebaseAuth.instance;
   late TextEditingController emailC;
+  late TextEditingController usernameC;
   late TextEditingController passwordC;
-  String userName = '';
+
   Stream<User?> get userStatus => auth.authStateChanges();
   // ! create account
-  loginAccount(String email, String password) async {
+  createAccount(String email, String username, String password) async {
     try {
-      UserCredential myUser = await auth.signInWithEmailAndPassword(
+      UserCredential myUser = await auth.createUserWithEmailAndPassword(
           email: email, password: password);
       print(myUser.user);
-      userName = myUser.user!.displayName!;
-      print("Username : $userName");
-      Get.offAllNamed(Routes.HOME, arguments: userName);
-      // await myUser.user!.sendEmailVerification();
+      await myUser.user!.sendEmailVerification();
+      myUser.user!.updateDisplayName(username);
+      Get.defaultDialog(
+          title: "Register Successfully",
+          middleText:
+              "Your account has been registered successfully please check your email for verication code",
+          onConfirm: () {
+            Get.back(); // Close dialog
+            Get.back();
+          },
+          middleTextStyle: GoogleFonts.poppins(),
+          textConfirm: "Yes i'am understand");
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       if (e.code == "email-already-in-use") {
@@ -65,6 +71,7 @@ class LoginPageController extends GetxController {
   void onInit() {
     super.onInit();
     emailC = TextEditingController();
+    usernameC = TextEditingController();
     passwordC = TextEditingController();
   }
 
@@ -72,6 +79,7 @@ class LoginPageController extends GetxController {
   void dispose() {
     super.dispose();
     emailC.dispose();
+    usernameC.dispose();
     passwordC.dispose();
   }
 }

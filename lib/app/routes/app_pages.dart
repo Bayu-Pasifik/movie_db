@@ -4,6 +4,8 @@ import '../modules/DetailPage/bindings/detail_page_binding.dart';
 import '../modules/DetailPage/views/detail_page_view.dart';
 import '../modules/Login_Page/bindings/login_page_binding.dart';
 import '../modules/Login_Page/views/login_page_view.dart';
+import '../modules/Register_Page/bindings/register_page_binding.dart';
+import '../modules/Register_Page/views/register_page_view.dart';
 import '../modules/detail_watch_list/bindings/detail_watch_list_binding.dart';
 import '../modules/detail_watch_list/views/detail_watch_list_view.dart';
 import '../modules/genre_result/bindings/genre_result_binding.dart';
@@ -71,6 +73,11 @@ class AppPages {
       name: _Paths.WATCH_LIST,
       page: () => const WatchListView(),
       binding: WatchListBinding(),
+    ),
+    GetPage(
+      name: _Paths.REGISTER_PAGE,
+      page: () => const RegisterPageView(),
+      binding: RegisterPageBinding(),
     ),
   ];
 }

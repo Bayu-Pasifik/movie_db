@@ -28,11 +28,14 @@ class HomeView extends GetView<HomeController> {
     Get.put(UpcomingController());
     Get.put(PopularController());
     Get.put(ListGenreController());
-
+    final String username = Get.arguments;
+    print("Username on homeView : $username");
     List<Widget> widgets = [
       HomeItemsView(),
       SearchView(),
-      WatchListView(),
+      WatchListView(
+        userData: username,
+      ),
       ListGenreView(),
     ];
     return Scaffold(

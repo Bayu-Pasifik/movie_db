@@ -15,15 +15,11 @@ void main() async {
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
     runApp(
-      ResponsiveSizer(
-        builder: (context, orientation, screenType) {
-          return GetMaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: "Application",
-            initialRoute: AppPages.INITIAL,
-            getPages: AppPages.routes,
-          );
-        },
+      GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: "Application",
+        initialRoute: Routes.LOGIN_PAGE,
+        getPages: AppPages.routes,
       ),
     );
   });
