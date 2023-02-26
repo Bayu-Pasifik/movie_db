@@ -19,8 +19,12 @@ class WatchListView extends GetView<WatchListController> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Watchlist"),
+          title: Text(
+            "Watchlist",
+            style: GoogleFonts.poppins(),
+          ),
           elevation: 0,
+          centerTitle: true,
         ),
         body: GetBuilder<WatchListController>(
           builder: (c) {

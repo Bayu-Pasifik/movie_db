@@ -1,9 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_db/app/data/models/UserModel.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 
 class LoginPageController extends GetxController {

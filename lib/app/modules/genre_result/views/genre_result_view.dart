@@ -14,7 +14,8 @@ class GenreResultView extends GetView<GenreResultController> {
   const GenreResultView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    GenreMovie genreMovie = Get.arguments;
+    GenreMovie genreMovie = Get.arguments["movie"];
+    String userData = Get.arguments["user"];
     return Scaffold(
         appBar: AppBar(
           title: Text('${genreMovie.name}'),
@@ -45,7 +46,10 @@ class GenreResultView extends GetView<GenreResultController> {
                             height: 200,
                             child: GestureDetector(
                               onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                                  arguments: currentMovie),
+                                  arguments: {
+                                    "movie": currentMovie,
+                                    "user": userData
+                                  }),
                               child: (currentMovie.posterPath != null)
                                   ? CachedNetworkImage(
                                       imageUrl:

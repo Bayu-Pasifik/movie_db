@@ -13,7 +13,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'now_playing_view.dart';
 
 class HomeItemsView extends GetView<HomeController> {
-  const HomeItemsView({Key? key}) : super(key: key);
+  final String userData;
+  const HomeItemsView({Key? key, required this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final String user = Get.arguments;
@@ -26,6 +27,7 @@ class HomeItemsView extends GetView<HomeController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ! Greetings
               Row(
                 children: [
                   Text("${controller.greetings()} ",
@@ -51,7 +53,7 @@ class HomeItemsView extends GetView<HomeController> {
                   ),
                   TextButton(
                       onPressed: () {
-                        Get.toNamed(Routes.TRENDING_PAGE);
+                        Get.toNamed(Routes.TRENDING_PAGE, arguments: userData);
                       },
                       child: Text(
                         "Show All",
@@ -85,7 +87,10 @@ class HomeItemsView extends GetView<HomeController> {
                                     child: GestureDetector(
                                       onTap: () => Get.toNamed(
                                           Routes.DETAIL_PAGE,
-                                          arguments: trending),
+                                          arguments: {
+                                            "movie": trending,
+                                            "user": userData
+                                          }),
                                       child: Container(
                                         width: 100,
                                         height: 150,
@@ -174,9 +179,11 @@ class HomeItemsView extends GetView<HomeController> {
               Expanded(
                 child: TabBarView(children: [
                   NowPlayingView(userData: user),
-                  UpcomingView(),
-                  TopView(),
-                  PopularFilmView()
+                  UpcomingView(userData: user),
+                  TopView(
+                    userData: user,
+                  ),
+                  PopularFilmView(userData: user)
                 ]),
               )
             ],

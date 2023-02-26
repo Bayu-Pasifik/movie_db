@@ -7,7 +7,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import '../controllers/list_genre_controller.dart';
 
 class ListGenreView extends GetView<ListGenreController> {
-  const ListGenreView({Key? key}) : super(key: key);
+  final String? userData;
+  const ListGenreView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,7 +36,8 @@ class ListGenreView extends GetView<ListGenreController> {
                     GenreMovie genreMovie = controller.allGenre[index];
                     return GestureDetector(
                       onTap: () {
-                        Get.toNamed(Routes.GENRE_RESULT, arguments: genreMovie);
+                        Get.toNamed(Routes.GENRE_RESULT,
+                            arguments: {"movie": genreMovie, "user": userData});
                       },
                       child: Material(
                         elevation: 2,

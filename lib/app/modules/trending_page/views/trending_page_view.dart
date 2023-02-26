@@ -13,6 +13,7 @@ class TrendingPageView extends GetView<TrendingPageController> {
   const TrendingPageView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    final String userData = Get.arguments;
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -47,7 +48,10 @@ class TrendingPageView extends GetView<TrendingPageController> {
                             width: 200,
                             child: GestureDetector(
                               onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                                  arguments: currentMovie),
+                                  arguments: {
+                                    "movie": currentMovie,
+                                    "user": userData
+                                  }),
                               child: CachedNetworkImage(
                                 imageUrl:
                                     "https://image.tmdb.org/t/p/original${currentMovie.posterPath}",

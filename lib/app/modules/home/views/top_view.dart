@@ -9,7 +9,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class TopView extends GetView<TopController> {
-  const TopView({Key? key}) : super(key: key);
+  final String userData;
+  const TopView({Key? key, required this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<TopController>(
@@ -37,7 +38,10 @@ class TopView extends GetView<TopController> {
                         height: 200,
                         child: GestureDetector(
                           onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                              arguments: currentMovie),
+                              arguments: {
+                                  "movie":currentMovie,
+                                  "user":userData
+                                }),
                           child: CachedNetworkImage(
                             imageUrl:
                                 "https://image.tmdb.org/t/p/original${currentMovie.posterPath}",

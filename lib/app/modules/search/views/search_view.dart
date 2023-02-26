@@ -11,7 +11,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import '../controllers/search_controller.dart';
 
 class SearchView extends GetView<SearchController> {
-  const SearchView({Key? key}) : super(key: key);
+  final String? userData;
+  const SearchView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +90,10 @@ class SearchView extends GetView<SearchController> {
                                     child: GestureDetector(
                                       onTap: () => Get.toNamed(
                                           Routes.DETAIL_PAGE,
-                                          arguments: movie),
+                                          arguments: {
+                                            "movie": movie,
+                                            "user": userData
+                                          }),
                                       child: Row(
                                         children: [
                                           // ! image on the left

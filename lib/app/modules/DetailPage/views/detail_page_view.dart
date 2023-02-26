@@ -46,8 +46,6 @@ class DetailPageView extends GetView<DetailPageController> {
                 IconButton(
                     onPressed: () {
                       c.createSave(movie);
-                      // Get.delete<WatchListController>(force: true);
-                      // Get.offNamed(Routes.WATCH_LIST);
                     },
                     icon: Icon(Icons.bookmark))
               ],

@@ -31,24 +31,21 @@ class HomeView extends GetView<HomeController> {
     final String username = Get.arguments;
     print("Username on homeView : $username");
     List<Widget> widgets = [
-      HomeItemsView(),
-      SearchView(),
-      WatchListView(
-        userData: username,
-      ),
-      ListGenreView(),
+      HomeItemsView(userData: username),
+      SearchView(userData: username),
+      WatchListView(userData: username),
+      ListGenreView(userData: username,),
     ];
     return Scaffold(
         bottomNavigationBar: Obx(
           () => CurvedNavigationBar(
-            // key: _bottomNavigationKey,
             index: controller.tabIndex.value,
             height: 60.0,
             items: <Widget>[
               Icon(Icons.home, size: 30),
-              Icon(Icons.list, size: 30),
-              Icon(Icons.compare_arrows, size: 30),
-              Icon(Icons.call_split, size: 30),
+              Icon(Icons.search, size: 30),
+              Icon(Icons.watch_later, size: 30),
+              Icon(Icons.movie_creation_outlined, size: 30),
               // Icon(Icons.perm_identity, size: 30),
             ],
             color: Colors.white,
