@@ -21,8 +21,6 @@ class UpcomingController extends GetxController {
       totalPage = json.decode(response.body)['total_pages'];
       var tempdata = data.map((e) => CurrentMovie.fromJson(e)).toList();
       upcomming.addAll(tempdata);
-      print("page : $page");
-      print("total : $totalPage");
     }
     return upcomming;
   }

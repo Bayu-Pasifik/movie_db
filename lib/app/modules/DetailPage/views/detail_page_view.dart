@@ -22,7 +22,7 @@ class DetailPageView extends GetView<DetailPageController> {
   @override
   Widget build(BuildContext context) {
     final CurrentMovie detail = Get.arguments["movie"];
-    final String userCredential = Get.arguments["user"];
+    final String username = Get.arguments["user"];
     DateTime now = DateTime.now();
     final String date = now.toString().substring(0, 10);
     final movie = SaveMovie(
@@ -31,7 +31,7 @@ class DetailPageView extends GetView<DetailPageController> {
         imageUrl: "https://image.tmdb.org/t/p/original${detail.posterPath}",
         createdAt: date,
         idMovie: detail.id.toString(),
-        madeBy: userCredential);
+        madeBy: username);
     return GetBuilder<DetailPageController>(
       builder: (c) {
         return Scaffold(

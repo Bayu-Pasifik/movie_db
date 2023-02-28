@@ -9,8 +9,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class PopularFilmView extends GetView<PopularController> {
-  final String userData;
-  const PopularFilmView({Key? key, required this.userData}) : super(key: key);
+  final String? userData;
+  const PopularFilmView({Key? key,  this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PopularController>(

@@ -13,7 +13,6 @@ class ListGenreController extends GetxController {
     if (response.statusCode == 200) {
       var data = json.decode(response.body)['genres'];
       var tempdata = data.map((e) => GenreMovie.fromJson(e)).toList();
-      print(tempdata);
       allGenre.addAll(tempdata);
     }
     return allGenre;

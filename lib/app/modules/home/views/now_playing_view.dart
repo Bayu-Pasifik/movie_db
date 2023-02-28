@@ -10,8 +10,8 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class NowPlayingView extends GetView<NowPlayingController> {
-  final String userData;
-  const NowPlayingView({Key? key,required this.userData}) : super(key: key);
+  final String? userData;
+  const NowPlayingView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<NowPlayingController>(

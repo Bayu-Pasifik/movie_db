@@ -13,11 +13,10 @@ import 'package:movie_db/app/routes/app_pages.dart';
 import 'now_playing_view.dart';
 
 class HomeItemsView extends GetView<HomeController> {
-  final String userData;
-  const HomeItemsView({Key? key, required this.userData}) : super(key: key);
+  final String? userData;
+  const HomeItemsView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final String user = Get.arguments;
     return Scaffold(
         body: DefaultTabController(
       length: 4,
@@ -33,9 +32,16 @@ class HomeItemsView extends GetView<HomeController> {
                   Text("${controller.greetings()} ",
                       style: GoogleFonts.oleoScript(
                           fontWeight: FontWeight.w300, fontSize: 22)),
-                  Text("${user}",
+                  Text("$userData",
                       style: GoogleFonts.oleoScript(
-                          fontWeight: FontWeight.w300, fontSize: 22))
+                          fontWeight: FontWeight.w300, fontSize: 22)),
+                  Spacer(),
+                  IconButton(
+                      onPressed: () {
+                        controller.logout();
+                        Get.offAllNamed(Routes.LOGIN_PAGE);
+                      },
+                      icon: Icon(Icons.logout))
                 ],
               ),
               Text("What do you want to watch ?",
@@ -178,12 +184,10 @@ class HomeItemsView extends GetView<HomeController> {
               ),
               Expanded(
                 child: TabBarView(children: [
-                  NowPlayingView(userData: user),
-                  UpcomingView(userData: user),
-                  TopView(
-                    userData: user,
-                  ),
-                  PopularFilmView(userData: user)
+                  NowPlayingView(userData: userData),
+                  UpcomingView(userData: userData),
+                  TopView(userData: userData),
+                  PopularFilmView(userData: userData)
                 ]),
               )
             ],

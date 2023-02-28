@@ -11,7 +11,7 @@ class WatchListController extends GetxController {
   var savemovie = [].obs;
   List<SaveMovie> saveMovie = [];
   RefreshController watchRefresh = RefreshController(initialRefresh: true);
-  final String username = Get.arguments;
+  final username = Get.arguments;
 
   // ! fetch all data
   Future<List<SaveMovie>> getAllSaved() async {

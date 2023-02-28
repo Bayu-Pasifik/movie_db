@@ -21,7 +21,6 @@ class TrendingPageController extends GetxController {
       page = json.decode(response.body)['page'];
       totalPage = json.decode(response.body)['total_pages'];
       var tempdata = data.map((e) => CurrentMovie.fromJson(e)).toList();
-      print(tempdata);
       listTrending.addAll(tempdata);
       print("page : $page");
       print("total : $totalPage");

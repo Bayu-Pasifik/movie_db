@@ -81,5 +81,8 @@ class RegisterPageController extends GetxController {
     emailC.dispose();
     usernameC.dispose();
     passwordC.dispose();
+    emailC.clear();
+    passwordC.clear();
+    usernameC.clear();
   }
 }

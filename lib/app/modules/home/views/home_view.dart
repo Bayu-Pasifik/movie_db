@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/modules/home/controllers/now_playing_controller_controller.dart';
@@ -13,11 +13,11 @@ import 'package:movie_db/app/modules/search/controllers/search_controller.dart';
 import 'package:movie_db/app/modules/search/views/search_view.dart';
 import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:movie_db/app/modules/watch_list/views/watch_list_view.dart';
-import 'package:movie_db/app/routes/app_pages.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  final String? userData;
+  const HomeView({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     Get.put(ListGenreController());
@@ -28,13 +28,13 @@ class HomeView extends GetView<HomeController> {
     Get.put(UpcomingController());
     Get.put(PopularController());
     Get.put(ListGenreController());
-    final String username = Get.arguments;
-    print("Username on homeView : $username");
+    final currentUser = FirebaseAuth.instance.currentUser;
+    print("Username on homeView : ${currentUser?.displayName}");
     List<Widget> widgets = [
-      HomeItemsView(userData: username),
-      SearchView(userData: username),
-      WatchListView(userData: username),
-      ListGenreView(userData: username,),
+      HomeItemsView(userData: currentUser?.displayName ?? "no data"),
+      SearchView(userData: currentUser?.displayName),
+      WatchListView(userData: currentUser?.displayName),
+      ListGenreView(userData: currentUser?.displayName),
     ];
     return Scaffold(
         bottomNavigationBar: Obx(
@@ -50,7 +50,7 @@ class HomeView extends GetView<HomeController> {
             ],
             color: Colors.white,
             buttonBackgroundColor: Colors.white,
-            backgroundColor: Colors.blueGrey,
+            backgroundColor: Colors.black12,
             animationCurve: Curves.easeInOut,
             animationDuration: Duration(milliseconds: 600),
             onTap: (index) {

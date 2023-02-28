@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController {
-  // late PersistentTabController persistanceController;
+  var auth = FirebaseAuth.instance;
   Rx<int> tabIndex = 0.obs;
   var hal = 1.obs;
   RefreshController trendingRefresh = RefreshController(initialRefresh: true);
@@ -37,7 +39,6 @@ class HomeController extends GetxController {
   void refreshData() async {
     if (trendingRefresh.initialRefresh == true) {
       hal.value = 1;
-      // current = [];
       await getCurrent();
       update();
       return trendingRefresh.refreshCompleted();
@@ -73,6 +74,12 @@ class HomeController extends GetxController {
       return message.value = 'Good Evening';
     }
     return 'Good Night';
+  }
+
+  // ! Logout Account
+  void logout() async {
+    await auth.signOut();
+    //Get.offAllNamed(Routes.LOGIN_PAGE);
   }
 
   @override
