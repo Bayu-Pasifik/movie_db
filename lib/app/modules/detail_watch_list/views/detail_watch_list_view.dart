@@ -16,7 +16,8 @@ class DetailWatchListView extends GetView<DetailWatchListController> {
   const DetailWatchListView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    final String id = Get.arguments;
+    final String idMovie = Get.arguments["idMovie"];
+    final String docId = Get.arguments["docId"];
     return Scaffold(
         appBar: AppBar(
           title: Text(
@@ -28,7 +29,7 @@ class DetailWatchListView extends GetView<DetailWatchListController> {
           actions: [
             IconButton(
                 onPressed: () {
-                  // c.createSave(movie);
+                  controller.deleteMovie(docId, idMovie);
                 },
                 icon: Icon(Icons.delete_forever))
           ],
@@ -36,7 +37,7 @@ class DetailWatchListView extends GetView<DetailWatchListController> {
         body: DefaultTabController(
           length: 4,
           child: FutureBuilder<DetailMovie>(
-            future: controller.detailMovie(id),
+            future: controller.detailMovie(idMovie),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.connectionState == ConnectionState.waiting) {

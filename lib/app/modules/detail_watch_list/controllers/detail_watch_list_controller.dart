@@ -1,18 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/api.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 import 'package:movie_db/app/data/models/MovieCast.dart';
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
+import 'package:movie_db/app/data/models/SaveMovie.dart';
+import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
 
 class DetailWatchListController extends GetxController {
   List<dynamic> reviews = [];
   RefreshController reviewRefresh = RefreshController(initialRefresh: true);
   RefreshController recomRefresh = RefreshController(initialRefresh: true);
+  final watchController = Get.find<WatchListController>();
 
   var page;
   var totalPage;
@@ -24,8 +27,8 @@ class DetailWatchListController extends GetxController {
   var halRecom = 1.obs;
   List<dynamic> recom = [];
 
-   // ! save to firebase
-  // final _db = FirebaseFirestore.instance;
+  // ! save to firebase
+  final firestore = FirebaseFirestore.instance;
 
   Future<DetailMovie> detailMovie(String id) async {
     Uri url = Uri.parse(
@@ -112,6 +115,27 @@ class DetailWatchListController extends GetxController {
       return recomRefresh.loadComplete();
     } else {
       return recomRefresh.loadNoData();
+    }
+  }
+
+  // ! delete watchlist
+  void deleteMovie(String docId, String id) async {
+    DocumentReference docRef = firestore.collection("savedFilm").doc(docId);
+    try {
+      Get.defaultDialog(
+        title: "Delete Watchlist",
+        middleText: "Are you sure want to delete this watchlist ?",
+        textConfirm: "Yes",
+        textCancel: "No",
+        onConfirm: () async {
+          await docRef.delete();
+          Get.back();
+          watchController.refreshData();
+          Get.back();
+        },
+      );
+    } catch (e) {
+      Get.defaultDialog(title: "Error", middleText: "Something went wrong");
     }
   }
 }

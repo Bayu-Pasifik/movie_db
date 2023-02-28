@@ -11,7 +11,8 @@ class WatchListController extends GetxController {
   var savemovie = [].obs;
   List<SaveMovie> saveMovie = [];
   RefreshController watchRefresh = RefreshController(initialRefresh: true);
-  final username = Get.arguments;
+  // final username = Get.arguments;
+  final username = FirebaseAuth.instance.currentUser?.displayName;
 
   // ! fetch all data
   Future<List<SaveMovie>> getAllSaved() async {
@@ -28,8 +29,6 @@ class WatchListController extends GetxController {
     var seen = Set<SaveMovie>();
     saveMovie = allMovie.where((element) => seen.add(element)).toList();
     update();
-    print("length: ${saveMovie.length}");
-    print("isi: ${saveMovie}");
     return saveMovie;
   }
 

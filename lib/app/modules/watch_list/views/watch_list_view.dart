@@ -14,7 +14,8 @@ import '../controllers/watch_list_controller.dart';
 
 class WatchListView extends GetView<WatchListController> {
   final String? userData;
-  const WatchListView({Key? key, this.userData}) : super(key: key);
+  final String? docID;
+  const WatchListView({Key? key, this.userData, this.docID}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,8 +40,10 @@ class WatchListView extends GetView<WatchListController> {
                         SaveMovie saveMovie = c.saveMovie[index];
                         return GestureDetector(
                           onTap: () {
-                            Get.toNamed(Routes.DETAIL_WATCH_LIST,
-                                arguments: saveMovie.idMovie);
+                            Get.toNamed(Routes.DETAIL_WATCH_LIST, arguments: {
+                              "idMovie": saveMovie.idMovie,
+                              "docId": saveMovie.id
+                            });
                           },
                           child: Row(
                             children: [
