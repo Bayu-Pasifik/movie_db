@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-import 'package:movie_db/app/data/models/UserModel.dart';
+import 'package:movie_db/app/modules/Login_Page/controllers/login_page_controller.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 
 import '../controllers/register_page_controller.dart';
@@ -19,9 +19,16 @@ class RegisterPageView extends GetView<RegisterPageController> {
         padding: EdgeInsets.all(10),
         children: [
           Container(
-              width: 200,
-              height: 200,
+              width: 150,
+              height: 150,
               child: LottieBuilder.asset("assets/lottie/popcorn.json")),
+          SizedBox(height: 20),
+          Center(
+              child: Text(
+            "Let\'s create account for you",
+            style: GoogleFonts.poppins(fontSize: 16, color: Colors.grey),
+          )),
+          SizedBox(height: 10),
           TextField(
             controller: controller.emailC,
             decoration: InputDecoration(
@@ -78,7 +85,7 @@ class RegisterPageView extends GetView<RegisterPageController> {
             children: [
               Text(
                 "Have account ?",
-                style: GoogleFonts.poppins(),
+                style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
               ),
               TextButton(
                   onPressed: () {
@@ -86,9 +93,53 @@ class RegisterPageView extends GetView<RegisterPageController> {
                   },
                   child: Text(
                     "Login here",
-                    style: GoogleFonts.poppins(),
+                    style: GoogleFonts.poppins(
+                        color: Color.fromARGB(255, 26, 164, 232), fontSize: 16),
                   ))
             ],
+          ),
+          // ! divider continue with
+          Row(
+            children: [
+              Expanded(
+                child: Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Or continue with',
+                    style:
+                        GoogleFonts.poppins(color: Colors.grey, fontSize: 16)),
+              ),
+              Expanded(
+                child: Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              final authC = Get.find<LoginPageController>();
+              authC.loginWithGoogle();
+            },
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                child: LottieBuilder.asset(
+                  "assets/lottie/google-logo.json",
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
           )
         ],
       ),

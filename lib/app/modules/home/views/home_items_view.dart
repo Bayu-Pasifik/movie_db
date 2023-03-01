@@ -31,10 +31,14 @@ class HomeItemsView extends GetView<HomeController> {
                 children: [
                   Text("${controller.greetings()} ",
                       style: GoogleFonts.oleoScript(
-                          fontWeight: FontWeight.w300, fontSize: 22)),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 22,
+                          color: Colors.grey[600])),
                   Text("$userData",
                       style: GoogleFonts.oleoScript(
-                          fontWeight: FontWeight.w300, fontSize: 22)),
+                          fontWeight: FontWeight.w300,
+                          fontSize: 22,
+                          color: Colors.grey[600])),
                   Spacer(),
                   IconButton(
                       onPressed: () {
@@ -46,7 +50,9 @@ class HomeItemsView extends GetView<HomeController> {
               ),
               Text("What do you want to watch ?",
                   style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600, fontSize: 18)),
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.grey[600])),
               SizedBox(
                 height: 20,
               ),
@@ -86,64 +92,61 @@ class HomeItemsView extends GetView<HomeController> {
                                 controller.listTrending[index];
                             return Column(
                               children: [
-                                Expanded(
+                                GestureDetector(
+                                  onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
+                                      arguments: {
+                                        "movie": trending,
+                                        "user": userData
+                                      }),
                                   child: Container(
-                                    width: 200,
-                                    height: 200,
-                                    child: GestureDetector(
-                                      onTap: () => Get.toNamed(
-                                          Routes.DETAIL_PAGE,
-                                          arguments: {
-                                            "movie": trending,
-                                            "user": userData
-                                          }),
-                                      child: Container(
-                                        width: 100,
-                                        height: 150,
-                                        child: CachedNetworkImage(
-                                          imageUrl:
-                                              "https://image.tmdb.org/t/p/original${trending.posterPath}",
-                                          imageBuilder:
-                                              (context, imageProvider) =>
-                                                  Container(
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(16),
-                                              image: DecorationImage(
-                                                  image: imageProvider,
-                                                  fit: BoxFit.cover),
-                                            ),
-                                          ),
-                                          progressIndicatorBuilder: (context,
-                                                  url, downloadProgress) =>
-                                              Center(
-                                            child: CircularProgressIndicator(
-                                                value:
-                                                    downloadProgress.progress),
-                                          ),
-                                          errorWidget: (context, url, error) =>
-                                              Image.asset(
-                                                  "assets/images/Image_not_available.png"),
+                                    width: 100,
+                                    height: 150,
+                                    child: CachedNetworkImage(
+                                      imageUrl:
+                                          "https://image.tmdb.org/t/p/original${trending.posterPath}",
+                                      imageBuilder: (context, imageProvider) =>
+                                          Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          image: DecorationImage(
+                                              image: imageProvider,
+                                              fit: BoxFit.cover),
                                         ),
                                       ),
+                                      progressIndicatorBuilder:
+                                          (context, url, downloadProgress) =>
+                                              Center(
+                                        child: CircularProgressIndicator(
+                                            value: downloadProgress.progress),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                              "assets/images/Image_not_available.png"),
                                     ),
                                   ),
                                 ),
-                                Text(
-                                  "${trending.title}",
-                                  style: GoogleFonts.poppins(
-                                      textStyle: TextStyle(
-                                          overflow: TextOverflow.ellipsis)),
-                                ),
-                                (trending.releaseDate != "")
-                                    ? Text(
-                                        "(${trending.releaseDate!.year})",
-                                        style: GoogleFonts.poppins(),
-                                      )
-                                    : Text(
-                                        "Null",
-                                        style: GoogleFonts.poppins(),
-                                      )
+                                // Expanded(
+                                //   child: Text(
+                                //     "${trending.title}",
+                                //     style: GoogleFonts.poppins(
+                                //         textStyle: TextStyle(
+                                //             overflow: TextOverflow.ellipsis)),
+                                //   ),
+                                // ),
+                                // (trending.releaseDate != "")
+                                //     ? Expanded(
+                                //         child: Text(
+                                //           "(${trending.releaseDate!.year})",
+                                //           style: GoogleFonts.poppins(),
+                                //         ),
+                                //       )
+                                //     : Expanded(
+                                //         child: Text(
+                                //           "Null",
+                                //           style: GoogleFonts.poppins(),
+                                //         ),
+                                //       )
                               ],
                             );
                           },

@@ -15,12 +15,19 @@ class LoginPageView extends GetView<LoginPageController> {
     return Scaffold(
         body: SafeArea(
       child: ListView(
-        padding: EdgeInsets.all(10),
+        padding: EdgeInsets.all(15),
         children: [
           Container(
-              width: 200,
-              height: 200,
+              width: 150,
+              height: 150,
               child: LottieBuilder.asset("assets/lottie/popcorn.json")),
+          SizedBox(height: 30),
+          Center(
+              child: Text(
+            "Welcome back, you have been missed",
+            style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
+          )),
+          SizedBox(height: 10),
           TextField(
             controller: controller.emailC,
             decoration: InputDecoration(
@@ -66,7 +73,7 @@ class LoginPageView extends GetView<LoginPageController> {
             children: [
               Text(
                 "Not have account ?",
-                style: GoogleFonts.poppins(),
+                style: GoogleFonts.poppins(color: Colors.grey, fontSize: 16),
               ),
               TextButton(
                   onPressed: () {
@@ -74,9 +81,52 @@ class LoginPageView extends GetView<LoginPageController> {
                   },
                   child: Text(
                     "Register here",
-                    style: GoogleFonts.poppins(),
+                    style: GoogleFonts.poppins(
+                        color: Color.fromARGB(255, 26, 164, 232), fontSize: 16),
                   ))
             ],
+          ),
+          // ! divider continue with
+          Row(
+            children: [
+              Expanded(
+                child: Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text('Or continue with',
+                    style:
+                        GoogleFonts.poppins(color: Colors.grey, fontSize: 16)),
+              ),
+              Expanded(
+                child: Divider(
+                  color: Colors.black,
+                  thickness: 1,
+                ),
+              ),
+            ],
+          ),
+          GestureDetector(
+            onTap: () {
+              controller.loginWithGoogle();
+            },
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                    color: Colors.grey[400],
+                    borderRadius: BorderRadius.all(Radius.circular(15))),
+                child: LottieBuilder.asset(
+                  "assets/lottie/google-logo.json",
+                  fit: BoxFit.fitWidth,
+                ),
+              ),
+            ),
           )
         ],
       ),

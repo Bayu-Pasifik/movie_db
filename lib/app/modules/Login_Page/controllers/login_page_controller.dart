@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 
 class LoginPageController extends GetxController {
@@ -11,7 +12,7 @@ class LoginPageController extends GetxController {
   late TextEditingController passwordC;
   Stream<User?> get userStatus => auth.authStateChanges();
   final currentUser = FirebaseAuth.instance.currentUser;
-  // ! Login account
+  // ! Login account with mail
   void loginAccount(String email, String password) async {
     try {
       UserCredential myUser = await auth.signInWithEmailAndPassword(
@@ -71,6 +72,25 @@ class LoginPageController extends GetxController {
             },
             textConfirm: "Yes i'am understand");
       }
+    }
+  }
+
+  // ! Login with google
+  void loginWithGoogle() async {
+    try {
+      // ! initialisation
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      // ! get Auth token from google
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      // ! get Usercredential
+      final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      print("isi credential : ${credential}");
+      // ! sign in to apps
+      await auth.signInWithCredential(credential);
+      Get.offAllNamed(Routes.HOME);
+    } catch (e) {
+      print("Error $e");
     }
   }
 
