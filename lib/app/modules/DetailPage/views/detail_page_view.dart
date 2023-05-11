@@ -219,6 +219,22 @@ class DetailPageView extends GetView<DetailPageController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
+                                    "Language",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.originalLanguage?.toUpperCase() ?? null} ",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
                                     "Popularity",
                                     style: GoogleFonts.poppins(),
                                   ),
@@ -251,6 +267,22 @@ class DetailPageView extends GetView<DetailPageController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
+                                    "Runtime",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.runtime} Hours",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
                                     "Budget",
                                     style: GoogleFonts.poppins(),
                                   ),
@@ -258,7 +290,7 @@ class DetailPageView extends GetView<DetailPageController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${detailMovie.budget}",
+                                    "\$ ${detailMovie.budget}",
                                     style: GoogleFonts.poppins(),
                                   ),
                                 )
@@ -274,7 +306,23 @@ class DetailPageView extends GetView<DetailPageController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${detailMovie.revenue}",
+                                    "\$ ${detailMovie.revenue}",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "TagLine",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.tagline}",
                                     style: GoogleFonts.poppins(),
                                   ),
                                 )

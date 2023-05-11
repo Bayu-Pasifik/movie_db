@@ -1,11 +1,10 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
+import 'package:movie_db/app/modules/home/views/list_trending.dart';
 import 'package:movie_db/app/modules/home/views/popular_film_view.dart';
 import 'package:movie_db/app/modules/home/views/top_view.dart';
 import 'package:movie_db/app/modules/home/views/upcoming_view.dart';
@@ -56,12 +55,13 @@ class HomeItemsView extends GetView<HomeController> {
               SizedBox(
                 height: 20,
               ),
+              // ! List Trending 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     "Trending Movie",
-                    style: GoogleFonts.poppins(),
+                    style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
                   ),
                   TextButton(
                       onPressed: () {
@@ -69,97 +69,16 @@ class HomeItemsView extends GetView<HomeController> {
                       },
                       child: Text(
                         "Show All",
-                        style: GoogleFonts.poppins(),
+                        style:
+                            GoogleFonts.montserrat(fontWeight: FontWeight.w600),
                       ))
                 ],
               ),
               // ! Listview Trending
               Container(
-                height: 150,
-                child: FutureBuilder<List>(
-                  future: controller.trendingMovie,
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      return ListView.separated(
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            CurrentMovie trending =
-                                controller.listTrending[index];
-                            return Column(
-                              children: [
-                                GestureDetector(
-                                  onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                                      arguments: {
-                                        "movie": trending,
-                                        "user": userData
-                                      }),
-                                  child: Container(
-                                    width: 100,
-                                    height: 150,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://image.tmdb.org/t/p/original${trending.posterPath}",
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
-                                        ),
-                                      ),
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                              Center(
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                              "assets/images/Image_not_available.png"),
-                                    ),
-                                  ),
-                                ),
-                                // Expanded(
-                                //   child: Text(
-                                //     "${trending.title}",
-                                //     style: GoogleFonts.poppins(
-                                //         textStyle: TextStyle(
-                                //             overflow: TextOverflow.ellipsis)),
-                                //   ),
-                                // ),
-                                // (trending.releaseDate != "")
-                                //     ? Expanded(
-                                //         child: Text(
-                                //           "(${trending.releaseDate!.year})",
-                                //           style: GoogleFonts.poppins(),
-                                //         ),
-                                //       )
-                                //     : Expanded(
-                                //         child: Text(
-                                //           "Null",
-                                //           style: GoogleFonts.poppins(),
-                                //         ),
-                                //       )
-                              ],
-                            );
-                          },
-                          separatorBuilder: (context, index) => SizedBox(
-                                width: 10,
-                              ),
-                          itemCount: controller.listTrending.length);
-                    }
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  },
-                ),
+                height: 200,
+                width: context.width,
+                child: ListTrending(controller: controller, userData: userData),
               ),
               SizedBox(
                 height: 20,

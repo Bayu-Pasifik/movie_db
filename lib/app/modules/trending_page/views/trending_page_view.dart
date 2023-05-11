@@ -31,6 +31,7 @@ class TrendingPageView extends GetView<TrendingPageController> {
                 onLoading: () => c.loadData(),
                 onRefresh: () => c.refreshData(),
                 child: GridView.builder(
+                  padding: EdgeInsets.all(8),
                   gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 150,
                       childAspectRatio: 1 / 1.8,

@@ -23,6 +23,7 @@ dependencies:
   google_sign_in: 5.4.2
   expandable: 5.0.1
   youtube_player_flutter: 8.1.2
+  carousel_slider: 4.2.1
   flutter: 
     sdk: flutter
 

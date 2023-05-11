@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:carousel_slider/carousel_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
@@ -11,6 +12,9 @@ import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeController extends GetxController {
+  final CarouselController carouselController = CarouselController();
+   // ! variable untuk slider
+  Rx<int> currentSlider = 0.obs;
   var auth = FirebaseAuth.instance;
   Rx<int> tabIndex = 0.obs;
   var hal = 1.obs;
