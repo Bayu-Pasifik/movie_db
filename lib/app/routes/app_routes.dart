@@ -14,6 +14,9 @@ abstract class Routes {
   static const DETAIL_WATCH_LIST = _Paths.DETAIL_WATCH_LIST;
   static const WATCH_LIST = _Paths.WATCH_LIST;
   static const REGISTER_PAGE = _Paths.REGISTER_PAGE;
+  static const ALL_CAST = _Paths.ALL_CAST;
+  static const ALL_REVIEW = _Paths.ALL_REVIEW;
+  static const ALL_SIMILIAR = _Paths.ALL_SIMILIAR;
 }
 
 abstract class _Paths {
@@ -29,4 +32,7 @@ abstract class _Paths {
   static const DETAIL_WATCH_LIST = '/detail-watch-list';
   static const WATCH_LIST = '/watch-list';
   static const REGISTER_PAGE = '/register-page';
+  static const ALL_CAST = '/all-cast';
+  static const ALL_REVIEW = '/all-review';
+  static const ALL_SIMILIAR = '/all-similiar';
 }

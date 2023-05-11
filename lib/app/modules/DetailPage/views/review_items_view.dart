@@ -1,3 +1,4 @@
+import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -12,90 +13,159 @@ class ReviewItemsView extends GetView<DetailPageController> {
   const ReviewItemsView({Key? key, required this.id}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: GetBuilder<DetailPageController>(
-      builder: (c) {
-        return GetBuilder<DetailPageController>(
-          builder: (c) {
-            return SmartRefresher(
-                controller: c.reviewRefresh,
-                enablePullDown: true,
-                enablePullUp: true,
-                onLoading: () => c.loadData(this.id),
-                onRefresh: () => c.refreshData(this.id),
-                child: (c.reviews.isNotEmpty)
-                    ? ListView.builder(
-                        itemCount: c.reviews.length,
-                        itemBuilder: (context, index) {
-                          ReviewMovie reviewMovie = c.reviews[index];
-                          return ListTile(
-                            isThreeLine: true,
-                            leading: (reviewMovie.authorDetails!.avatarPath !=
-                                    null)
-                                ? (reviewMovie.authorDetails!.avatarPath!
-                                        .contains("https://www.gravatar.com"))
-                                    ? Column(
-                                        children: [
-                                          CircleAvatar(
-                                            backgroundImage: NetworkImage(
-                                                "${reviewMovie.authorDetails!.avatarPath!.replaceFirst("/", "")}"),
-                                          ),
-                                          Expanded(
-                                            child: Text(
-                                              "${reviewMovie.authorDetails!.rating}",
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  "https://www.gravatar.com/avatar${reviewMovie.authorDetails!.avatarPath}")),
-                                          Expanded(
-                                            child: Text(
-                                              "${reviewMovie.authorDetails!.rating}",
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          )
-                                        ],
-                                      )
-                                : Container(
-                                    width: 50,
-                                    height: 100,
-                                    child: Column(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundImage: AssetImage(
-                                              "assets/images/Image_not_available.png"),
-                                        ),
-                                        Expanded(
-                                          child: Text(
-                                            "${reviewMovie.authorDetails!.rating}",
-                                            style: GoogleFonts.poppins(),
-                                          ),
-                                        )
-                                      ],
-                                    ),
+    return Scaffold(
+        body: FutureBuilder(
+      future: controller.reviewMovie(id, controller.hal.toInt()),
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+        }
+        return ListView.builder(
+          itemBuilder: (context, index) {
+            ReviewMovie reviewMovie = controller.reviews[index];
+            return ExpandablePanel(
+              header: Text(reviewMovie.author ?? "Null",
+                  style: GoogleFonts.poppins()),
+              collapsed: Row(
+                children: [
+                  (reviewMovie.authorDetails!.avatarPath != null)
+                      ? (reviewMovie.authorDetails!.avatarPath!
+                              .contains("https://www.gravatar.com"))
+                          ? Container(
+                              width: 70,
+                              height: 70,
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "${reviewMovie.authorDetails!.avatarPath!.replaceFirst("/", "")}"),
                                   ),
-                            title: Text(
-                              "${reviewMovie.author}",
-                              style: GoogleFonts.poppins(),
-                            ),
-                            subtitle: Text(
-                              "${reviewMovie.content}",
-                              style: GoogleFonts.poppins(),
-                            ),
-                          );
-                        },
-                      )
-                    : Center(
-                        child: Text(
-                          "There Is No Data Review",
-                          style: GoogleFonts.poppins(),
+                                  Text(
+                                    "${reviewMovie.authorDetails!.rating}",
+                                    style: GoogleFonts.poppins(),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              width: 70,
+                              height: 70,
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "https://www.gravatar.com/avatar${reviewMovie.authorDetails!.avatarPath}")),
+                                  Expanded(
+                                    child: Text(
+                                      "${reviewMovie.authorDetails!.rating}",
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/Image_not_available.png"),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${reviewMovie.authorDetails!.rating}",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ));
+                  Expanded(
+                    child: Text(
+                      reviewMovie.content ?? "Null",
+                      softWrap: true,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                ],
+              ),
+              expanded: Row(
+                children: [
+                  (reviewMovie.authorDetails!.avatarPath != null)
+                      ? (reviewMovie.authorDetails!.avatarPath!
+                              .contains("https://www.gravatar.com"))
+                          ? Container(
+                              width: 70,
+                              height: 70,
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: NetworkImage(
+                                        "${reviewMovie.authorDetails!.avatarPath!.replaceFirst("/", "")}"),
+                                  ),
+                                  Text(
+                                    "${reviewMovie.authorDetails!.rating}",
+                                    style: GoogleFonts.poppins(),
+                                  )
+                                ],
+                              ),
+                            )
+                          : Container(
+                              width: 70,
+                              height: 70,
+                              child: Column(
+                                children: [
+                                  CircleAvatar(
+                                      backgroundImage: NetworkImage(
+                                          "https://www.gravatar.com/avatar${reviewMovie.authorDetails!.avatarPath}")),
+                                  Expanded(
+                                    child: Text(
+                                      "${reviewMovie.authorDetails!.rating}",
+                                      style: GoogleFonts.poppins(),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                      : Container(
+                          width: 100,
+                          height: 100,
+                          child: Column(
+                            children: [
+                              CircleAvatar(
+                                backgroundImage: AssetImage(
+                                    "assets/images/Image_not_available.png"),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  "${reviewMovie.authorDetails!.rating}",
+                                  style: GoogleFonts.poppins(),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                  Expanded(
+                    child: Text(
+                      reviewMovie.content ?? "Null",
+                      softWrap: true,
+                      style: GoogleFonts.poppins(),
+                    ),
+                  ),
+                ],
+              ),
+            );
           },
+          itemCount: 1,
         );
       },
     ));

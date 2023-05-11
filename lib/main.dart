@@ -51,7 +51,8 @@ class MyApp extends StatelessWidget {
               return GetMaterialApp(
                 debugShowCheckedModeBanner: false,
                 title: "Application",
-                initialRoute: ((snapshot.data != null) &&
+                initialRoute: 
+                ((snapshot.data != null) &&
                         (snapshot.data!.emailVerified == true)
                     ? Routes.HOME
                     : Routes.LOGIN_PAGE),

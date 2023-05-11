@@ -10,6 +10,7 @@ import 'dart:convert';
 
 import 'package:movie_db/app/data/models/ReviewMovie.dart';
 import 'package:movie_db/app/data/models/SaveMovie.dart';
+import 'package:movie_db/app/data/models/TrailerModel.dart';
 import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
@@ -29,8 +30,12 @@ class DetailPageController extends GetxController {
   var halRecom = 1.obs;
   List<dynamic> recom = [];
 
+  // ! Trailers
+  List<dynamic> trailers = [];
   // ! save to firebase
   final _db = FirebaseFirestore.instance;
+
+  // ! details movie
 
   Future<DetailMovie> detailMovie(String id) async {
     Uri url = Uri.parse(
@@ -41,6 +46,8 @@ class DetailPageController extends GetxController {
     // debugPrint(tempData.title);
     return tempData;
   }
+
+  // ! Review Movie
 
   Future<List> reviewMovie(String id, int hal) async {
     Uri url = Uri.parse(
@@ -54,6 +61,7 @@ class DetailPageController extends GetxController {
     return reviews;
   }
 
+  // ! Cast Movie
   Future<List> castMovie(String id) async {
     Uri url = Uri.parse(
         'https://api.themoviedb.org/3/movie/$id/credits?api_key=$apikey&language=en-US');
@@ -64,16 +72,31 @@ class DetailPageController extends GetxController {
     return cast;
   }
 
+  // !
+
   Future<List> recommendation(String id, int halaman) async {
     Uri url = Uri.parse(
-        'https://api.themoviedb.org/3/movie/$id/similar?api_key=$apikey&language=en-US&page=$halaman');
+        'https://api.themoviedb.org/3/movie/$id/recommendations?api_key=$apikey&language=en-US&page=$halaman');
     var response = await http.get(url);
     var data = json.decode(response.body)['results'];
     pageRecom = json.decode(response.body)['page'];
     totalRecom = json.decode(response.body)['total_pages'];
     var tempData = data.map((e) => CurrentMovie.fromJson(e)).toList();
     recom.addAll(tempData);
+    print(recom.length);
     return recom;
+  }
+
+  // ! Function for Trailers
+  Future<List> trailersMovie(String id) async {
+    Uri url = Uri.parse(
+        'https://api.themoviedb.org/3/movie/$id/videos?api_key=$apikey&language=en-US');
+    var response = await http.get(url);
+    var data = json.decode(response.body)["results"];
+    var tempData = data.map((e) => TrailerModel.fromJson(e)).toList();
+    print("Panjang Trailers : ${tempData.length}");
+    trailers.addAll(tempData);
+    return trailers;
   }
 
   void refreshData(String id) async {
@@ -121,8 +144,9 @@ class DetailPageController extends GetxController {
   }
 
 //! method for saving data
-
+  var saved = false.obs;
   createSave(SaveMovie saveMovie) {
+    saved.value = true;
     _db
         .collection("savedFilm")
         .add(saveMovie.toJason())
@@ -130,7 +154,7 @@ class DetailPageController extends GetxController {
             "Success", "Your data has been successfully stored",
             colorText: Colors.white,
             snackPosition: SnackPosition.TOP,
-            duration: Duration(seconds: 2),
+            duration: Duration(seconds: 1),
             backgroundColor: Colors.green[400]))
         // ignore: body_might_complete_normally_catch_error
         .catchError((error, snackTree) {
@@ -139,10 +163,11 @@ class DetailPageController extends GetxController {
         "Something went Wrong, please try again",
         backgroundColor: Colors.red[600],
         colorText: Colors.white,
-        duration: Duration(seconds: 2),
+        duration: Duration(seconds: 1),
         snackPosition: SnackPosition.TOP,
       );
       print(error.toString());
+      saved.value = false;
     });
   }
 

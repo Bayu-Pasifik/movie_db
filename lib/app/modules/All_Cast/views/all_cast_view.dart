@@ -5,18 +5,20 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 import 'package:movie_db/app/data/models/MovieCast.dart';
-import 'package:movie_db/app/modules/DetailPage/controllers/detail_page_controller.dart';
 
-class CastView extends GetView<DetailPageController> {
-  final String id;
-  const CastView({Key? key, required this.id}) : super(key: key);
+import '../controllers/all_cast_controller.dart';
+
+class AllCastView extends GetView<AllCastController> {
+  const AllCastView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    DetailMovie detailMovie = Get.arguments;
     return Scaffold(
+      appBar: AppBar(title: Text("All Cast ${detailMovie.title}")),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: FutureBuilder(
-          future: controller.castMovie(this.id),
+          future: controller.castMovie(detailMovie.id.toString()),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -26,14 +28,16 @@ class CastView extends GetView<DetailPageController> {
               } else if (snapshot.connectionState == ConnectionState.done) {
                 return (controller.cast.length != 0)
                     ? ListView.separated(
-                        scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           MovieCast cast = controller.cast[index];
-                          return Column(
-                            children: [
+                          return Container(
+                            width: 400,
+                            height: 200,
+                            // color: Colors.amber,
+                            child: Row(children: [
                               Expanded(
                                 child: Container(
-                                    width: 200,
+                                    width: 50,
                                     height: 400,
                                     child: (cast.profilePath != null)
                                         ? CachedNetworkImage(
@@ -66,35 +70,39 @@ class CastView extends GetView<DetailPageController> {
                                         : Image.asset(
                                             "assets/images/Image_not_available.png")),
                               ),
-                              Text(
-                                "${cast.originalName}",
-                                style: GoogleFonts.poppins(),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "As",
-                                style: GoogleFonts.poppins(),
-                              ),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              (cast.character != "")
-                                  ? Text(
-                                      "${cast.character}",
-                                      style: GoogleFonts.poppins(),
-                                    )
-                                  : Text(
-                                      "Null",
-                                      style: GoogleFonts.poppins(),
-                                    )
-                            ],
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Full Name : "),
+                                        Text("${cast.originalName}"),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Center(child: Text("As")),
+                                    SizedBox(height: 10),
+                                    (cast.character != "")
+                                        ? Text(
+                                            "${cast.character}",
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                        : Text(
+                                            "Null",
+                                            style: GoogleFonts.poppins(),
+                                          )
+                                  ],
+                                ),
+                              )
+                            ]),
                           );
                         },
-                        separatorBuilder: (context, index) =>
-                            SizedBox(width: 10),
-                        itemCount: 5)
+                        separatorBuilder: (context, index) => SizedBox(
+                              height: 20,
+                            ),
+                        itemCount: controller.cast.length)
                     : Center(
                         child: Text(
                           "There Is No Data Cast",

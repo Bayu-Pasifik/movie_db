@@ -11,6 +11,9 @@ import 'package:movie_db/app/data/models/SaveMovie.dart';
 
 import 'package:movie_db/app/modules/DetailPage/views/cast_view.dart';
 import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
+import 'package:movie_db/app/modules/DetailPage/views/trailers_item.dart';
+import 'package:movie_db/app/modules/DetailPage/views/video_item.dart';
+import 'package:movie_db/app/modules/home/views/similar_view.dart';
 import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
@@ -22,6 +25,7 @@ class DetailPageView extends GetView<DetailPageController> {
   @override
   Widget build(BuildContext context) {
     final CurrentMovie detail = Get.arguments["movie"];
+    print(detail.id);
     final String username = Get.arguments["user"];
     DateTime now = DateTime.now();
     final String date = now.toString().substring(0, 10);
@@ -32,413 +36,345 @@ class DetailPageView extends GetView<DetailPageController> {
         createdAt: date,
         idMovie: detail.id.toString(),
         madeBy: username);
-    return GetBuilder<DetailPageController>(
-      builder: (c) {
-        return Scaffold(
-            appBar: AppBar(
-              title: Text(
-                'Detail',
-                style: GoogleFonts.montserrat(fontWeight: FontWeight.w600),
+    return Scaffold(
+      //1
+      body: CustomScrollView(
+        slivers: [
+          //2
+          SliverAppBar(
+            snap: true,
+            floating: true,
+            pinned: true,
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    controller.createSave(movie);
+                  },
+                  icon: Obx(() => (controller.saved.isFalse)
+                      ? Icon(Icons.bookmark)
+                      : Icon(Icons.bookmark_added_sharp)))
+            ],
+            expandedHeight: 250.0,
+            flexibleSpace: FlexibleSpaceBar(
+              title: Text('${detail.title}', style: GoogleFonts.poppins()),
+              background: CachedNetworkImage(
+                imageUrl:
+                    "https://image.tmdb.org/t/p/original${detail.posterPath}",
+                imageBuilder: (context, imageProvider) => Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: imageProvider, fit: BoxFit.cover),
+                  ),
+                ),
+                progressIndicatorBuilder: (context, url, downloadProgress) =>
+                    Center(
+                  child: CircularProgressIndicator(
+                      value: downloadProgress.progress),
+                ),
+                errorWidget: (context, url, error) =>
+                    Image.asset("assets/images/Image_not_available.png"),
               ),
-              elevation: 0,
-              centerTitle: true,
-              actions: [
-                IconButton(
-                    onPressed: () {
-                      c.createSave(movie);
-                    },
-                    icon: Icon(Icons.bookmark))
-              ],
             ),
-            body: DefaultTabController(
-              length: 4,
-              child: FutureBuilder<DetailMovie>(
-                future: controller.detailfilm,
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
+          ),
+          //3
+
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (_, int index) {
+                return FutureBuilder(
+                  future: controller.detailfilm,
+                  builder: (context, snapshot) {
+                    if (snapshot.data == null) {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      DetailMovie detailMovie = snapshot.data!;
-                      return Stack(
+                    if (snapshot.hasData) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    }
+                    DetailMovie detailMovie = snapshot.data!;
+                    return Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
+                          // ! Trailers
+                          Text("Trailer",
+                              style: GoogleFonts.montserrat(
+                                  fontWeight: FontWeight.w600, fontSize: 15)),
+                          SizedBox(height: 10),
+                          Container(
+                              height: 200,
+                              width: context.width,
+                              child: TrailersItem(id: detailMovie.id!)),
+                          SizedBox(height: 20),
+                          // ! Release date
+                          Text(
+                            "Release Date",
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
                             children: [
-                              // ! Stack for backround image and rating
-                              Stack(
-                                children: [
-                                  Container(
-                                    width: Get.width,
-                                    height: 200,
-                                    child: CachedNetworkImage(
-                                      imageUrl:
-                                          "https://image.tmdb.org/t/p/original${detail.posterPath}",
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.only(
-                                              bottomLeft: Radius.circular(8),
-                                              bottomRight: Radius.circular(8)),
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
+                              Icon(Icons.date_range),
+                              SizedBox(width: 5),
+                              Text(
+                                  "${detail.releaseDate?.day} - ${detail.releaseDate?.month} - ${detail.releaseDate?.year}",
+                                  style: GoogleFonts.poppins())
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "Genres",
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                          SizedBox(height: 10),
+                          Wrap(
+                            children: [
+                              for (var genres in detailMovie.genres!)
+                                Padding(
+                                  padding: const EdgeInsets.all(5.0),
+                                  child: Chip(
+                                    label: Text("${genres.name}"),
+                                    backgroundColor: Colors.blue,
+                                    labelStyle: GoogleFonts.poppins(
+                                        color: Colors.white),
+                                    labelPadding: EdgeInsets.all(5),
+                                  ),
+                                )
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          // ! Overview
+                          Text(
+                            "Overview",
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                          SizedBox(height: 10),
+                          Text(
+                            "${detail.overview}",
+                            style: GoogleFonts.poppins(),
+                          ),
+                          SizedBox(height: 20),
+                          // ! Summary
+                          Text(
+                            "Summary",
+                            style: GoogleFonts.montserrat(
+                                fontWeight: FontWeight.w600, fontSize: 15),
+                          ),
+                          SizedBox(height: 20),
+                          Table(
+                            border: TableBorder.all(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(8)),
+                                color: Colors.black12),
+                            children: [
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Rating",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.voteAverage}",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Adult",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                ),
+                                (detailMovie.adult == false)
+                                    ? Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "No",
+                                          style: GoogleFonts.poppins(),
                                         ),
-                                      ),
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                              Center(
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                              "assets/images/Image_not_available.png"),
-                                    ),
+                                      )
+                                    : Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          "Yes",
+                                          style: GoogleFonts.poppins(),
+                                        ),
+                                      )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Popularity",
+                                    style: GoogleFonts.poppins(),
                                   ),
-                                  Positioned(
-                                    top: 180,
-                                    left: 300,
-                                    child: Container(
-                                      width: 60,
-                                      height: 20,
-                                      // color: Colors.amber,
-                                      child: Row(
-                                        children: [
-                                          Icon(
-                                            Icons.star_border,
-                                            color: Colors.orange[600],
-                                            size: 20,
-                                          ),
-                                          Text(
-                                            "${detailMovie.voteAverage}",
-                                            style: TextStyle(
-                                                color: Colors.orange[600]),
-                                          ),
-                                        ],
-                                      ),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Color.fromARGB(255, 56, 78, 116)
-                                                  .withOpacity(0.8),
-                                          borderRadius:
-                                              BorderRadius.circular(4)),
-                                    ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.popularity} Peoples",
+                                    style: GoogleFonts.poppins(),
                                   ),
-                                ],
-                              ),
-                              // ! Container for name (movie title)
-                              Container(
-                                width: 400,
-                                height: 80,
-                                // color: Colors.green,
-                                child: Stack(
-                                  children: [
-                                    (detail.title!.length <= 20)
-                                        ? Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Align(
-                                                alignment: Alignment.topCenter,
-                                                child: Text(
-                                                  "${detail.title}",
-                                                  softWrap: true,
-                                                  maxLines: 2,
-                                                  style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 18),
-                                                )),
-                                          )
-                                        : Positioned(
-                                            // top: 10,
-                                            left: 100,
-                                            child: Container(
-                                              width: context.width / 1.5,
-                                              height: 60,
-                                              child: Wrap(
-                                                children: [
-                                                  Text(
-                                                    "${detail.title}",
-                                                    softWrap: true,
-                                                    maxLines: 4,
-                                                    style: GoogleFonts.poppins(
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontSize: 18,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            )),
-                                  ],
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Status",
+                                    style: GoogleFonts.poppins(),
+                                  ),
                                 ),
-                              ),
-                              // ! container for Release date dkk
-                              Container(
-                                width: context.width,
-                                height: 30,
-                                // color: Colors.green,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 100,
-                                      top: 5,
-                                      child: Wrap(
-                                        // mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.calendar_month_outlined,
-                                            size: 20,
-                                          ),
-                                          (detailMovie.releaseDate != null)
-                                              ? Text(
-                                                  "${detailMovie.releaseDate!.year} | ",
-                                                  style:
-                                                      GoogleFonts.montserrat(),
-                                                )
-                                              : Text("Null | "),
-                                          Icon(
-                                            Icons.access_time,
-                                            size: 20,
-                                          ),
-                                          (detailMovie.runtime != null)
-                                              ? Text(
-                                                  "${detailMovie.runtime} minutes |",
-                                                  style:
-                                                      GoogleFonts.montserrat(),
-                                                )
-                                              : Text("Null"),
-                                          Icon(
-                                            Icons.movie,
-                                            size: 20,
-                                          ),
-                                          (detailMovie.status != null)
-                                              ? Text(
-                                                  "${detailMovie.status}",
-                                                  style:
-                                                      GoogleFonts.montserrat(),
-                                                )
-                                              : Text("Null")
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.status}",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Budget",
+                                    style: GoogleFonts.poppins(),
+                                  ),
                                 ),
-                              ),
-                              // ! container for genre
-                              Container(
-                                width: Get.width,
-                                height: 50,
-                                child: Stack(
-                                  children: [
-                                    Positioned(
-                                      left: 100,
-                                      child: Container(
-                                        width: Get.width / 1.2,
-                                        height: 50,
-                                        // color: Colors.amber,
-                                        child: (detailMovie.genres != null)
-                                            ? Wrap(
-                                                children: [
-                                                  for (var genre
-                                                      in detailMovie.genres!)
-                                                    Text(
-                                                      "${genre.name} | ",
-                                                      style: GoogleFonts
-                                                          .montserrat(),
-                                                    )
-                                                ],
-                                              )
-                                            : Text("Null"),
-                                      ),
-                                    ),
-                                  ],
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.budget}",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                              TableRow(children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "Revenue",
+                                    style: GoogleFonts.poppins(),
+                                  ),
                                 ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "${detailMovie.revenue}",
+                                    style: GoogleFonts.poppins(),
+                                  ),
+                                )
+                              ]),
+                            ],
+                          ),
+                          SizedBox(height: 20),
+                          // ! Cast
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Cast",
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
                               ),
-                              // ! container for tab bar
-                              Container(
-                                width: Get.width,
-                                height: 40,
-                                // color: Colors.amber,
-                                child: TabBar(
-                                    isScrollable: true,
-                                    labelColor: Colors.black,
-                                    labelStyle: GoogleFonts.poppins(),
-                                    tabs: [
-                                      Tab(
-                                        text: "About Movie",
-                                      ),
-                                      Tab(
-                                        text: "Reviews",
-                                      ),
-                                      Tab(
-                                        text: "Cast",
-                                      ),
-                                      Tab(
-                                        text: "Recomendation",
-                                      ),
-                                    ]),
+                              TextButton(
+                                  onPressed: () {
+                                    Get.toNamed(Routes.ALL_CAST,
+                                        arguments: detailMovie);
+                                  },
+                                  child: Text(
+                                    "Load More",
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ))
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                              height: 300,
+                              child: CastView(id: detailMovie.id.toString())),
+                          SizedBox(height: 20),
+                          // ! Review
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Review",
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
                               ),
-                              // ! tabbar view
-                              Expanded(
-                                child: Container(
-                                  width: context.width,
-                                  height: context.height,
-                                  child: TabBarView(children: [
-                                    // ! overview
-                                    (detailMovie.overview != "")
-                                        ? Text(
-                                            "${detailMovie.overview}",
-                                            style: GoogleFonts.poppins(),
-                                          )
-                                        : Center(
-                                            child: Text(
-                                              "There Is No Data Overview",
-                                              style: GoogleFonts.poppins(),
-                                            ),
-                                          ),
-                                    ReviewItemsView(
-                                        id: detailMovie.id.toString()),
-                                    CastView(id: detailMovie.id.toString()),
-                                    GetBuilder<DetailPageController>(
-                                      builder: (c) {
-                                        return SmartRefresher(
-                                            controller: c.recomRefresh,
-                                            enablePullDown: true,
-                                            enablePullUp: true,
-                                            onLoading: () => c.loadRec(
-                                                detailMovie.id.toString()),
-                                            onRefresh: () => c.refreshRec(
-                                                detailMovie.id.toString()),
-                                            child: (c.recom.length != 0)
-                                                ? ListView.separated(
-                                                    itemCount: c.recom.length,
-                                                    separatorBuilder:
-                                                        (context, index) {
-                                                      return SizedBox(
-                                                        height: 20,
-                                                      );
-                                                    },
-                                                    itemBuilder:
-                                                        (context, index) {
-                                                      CurrentMovie recomend =
-                                                          c.recom[index];
-                                                      return Material(
-                                                        elevation: 1,
-                                                        child: ListTile(
-                                                          leading: Container(
-                                                            width: 100,
-                                                            height: 200,
-                                                            child: (recomend
-                                                                        .posterPath !=
-                                                                    null)
-                                                                ? CachedNetworkImage(
-                                                                    imageUrl:
-                                                                        "https://image.tmdb.org/t/p/original${recomend.posterPath}",
-                                                                    progressIndicatorBuilder: (context,
-                                                                            url,
-                                                                            downloadProgress) =>
-                                                                        Center(
-                                                                      child:
-                                                                          Center(
-                                                                        child: CircularProgressIndicator(
-                                                                            value:
-                                                                                downloadProgress.progress),
-                                                                      ),
-                                                                    ),
-                                                                    errorWidget: (context,
-                                                                            url,
-                                                                            error) =>
-                                                                        Image.asset(
-                                                                            "assets/images/Image_not_available.png"),
-                                                                  )
-                                                                : Image.asset(
-                                                                    "assets/images/Image_not_available.png"),
-                                                          ),
-                                                          title: Text(
-                                                            "${recomend.title}",
-                                                            style: GoogleFonts
-                                                                .poppins(),
-                                                          ),
-                                                          subtitle: Row(
-                                                            children: [
-                                                              Icon(
-                                                                  CupertinoIcons
-                                                                      .star),
-                                                              Text(
-                                                                "${recomend.voteAverage ?? "NaN"}",
-                                                                style: GoogleFonts
-                                                                    .poppins(),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                          trailing: Text(
-                                                            "${recomend.releaseDate!.year}",
-                                                            style: GoogleFonts
-                                                                .poppins(),
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  )
-                                                : Center(
-                                                    child: Text(
-                                                      "There is no data Recommendation",
-                                                      style:
-                                                          GoogleFonts.poppins(),
-                                                    ),
-                                                  ));
-                                      },
-                                    )
-                                  ]),
+                              TextButton(
+                                onPressed: () {
+                                  Get.toNamed(Routes.ALL_REVIEW,
+                                      arguments: detailMovie);
+                                },
+                                child: Text(
+                                  "Load More",
+                                  style: GoogleFonts.montserrat(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15),
                                 ),
                               )
                             ],
                           ),
-                          // ! small picture on left side
-                          Positioned(
-                            top: 120,
-                            child: Container(
-                              width: 100,
-                              height: 150,
-                              child: CachedNetworkImage(
-                                imageUrl:
-                                    "https://image.tmdb.org/t/p/original${detail.posterPath}",
-                                imageBuilder: (context, imageProvider) =>
-                                    Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16),
-                                    image: DecorationImage(
-                                        image: imageProvider,
-                                        fit: BoxFit.cover),
-                                  ),
-                                ),
-                                progressIndicatorBuilder:
-                                    (context, url, downloadProgress) => Center(
-                                  child: CircularProgressIndicator(
-                                      value: downloadProgress.progress),
-                                ),
-                                errorWidget: (context, url, error) =>
-                                    Image.asset(
-                                        "assets/images/Image_not_available.png"),
+                          SizedBox(height: 10),
+                          Container(
+                              height: 300,
+                              child: ReviewItemsView(
+                                  id: detailMovie.id.toString())),
+                          SizedBox(height: 20),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Recomendation",
+                                style: GoogleFonts.montserrat(
+                                    fontWeight: FontWeight.w600, fontSize: 15),
                               ),
-                            ),
-                          )
+                              TextButton(
+                                  onPressed: () => Get.toNamed(
+                                      Routes.ALL_SIMILIAR,
+                                      arguments: detailMovie),
+                                  child: Text(
+                                    "Load More",
+                                    style: GoogleFonts.montserrat(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 15),
+                                  ))
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Container(
+                              height: 200,
+                              color: Colors.amber,
+                              child: SimilarView(id: detail.id!)),
+                          SizedBox(height: 50)
                         ],
-                      );
-                    }
-                  }
-
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                },
-              ),
-            ));
-      },
+                      ),
+                    );
+                  },
+                );
+              },
+              childCount: 1,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,5 +1,11 @@
 import 'package:get/get.dart';
 
+import '../modules/All_Cast/bindings/all_cast_binding.dart';
+import '../modules/All_Cast/views/all_cast_view.dart';
+import '../modules/All_Review/bindings/all_review_binding.dart';
+import '../modules/All_Review/views/all_review_view.dart';
+import '../modules/All_Similiar/bindings/all_similiar_binding.dart';
+import '../modules/All_Similiar/views/all_similiar_view.dart';
 import '../modules/DetailPage/bindings/detail_page_binding.dart';
 import '../modules/DetailPage/views/detail_page_view.dart';
 import '../modules/Login_Page/bindings/login_page_binding.dart';
@@ -78,6 +84,21 @@ class AppPages {
       name: _Paths.REGISTER_PAGE,
       page: () => const RegisterPageView(),
       binding: RegisterPageBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_CAST,
+      page: () => const AllCastView(),
+      binding: AllCastBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_REVIEW,
+      page: () => const AllReviewView(),
+      binding: AllReviewBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_SIMILIAR,
+      page: () => const AllSimiliarView(),
+      binding: AllSimiliarBinding(),
     ),
   ];
 }

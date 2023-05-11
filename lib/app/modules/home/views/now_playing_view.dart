@@ -39,11 +39,10 @@ class NowPlayingView extends GetView<NowPlayingController> {
                         height: 200,
                         child: GestureDetector(
                           onTap: () {
-                            Get.toNamed(Routes.DETAIL_PAGE,
-                                arguments: {
-                                  "movie":currentMovie,
-                                  "user":userData
-                                });
+                            Get.toNamed(Routes.DETAIL_PAGE, arguments: {
+                              "movie": currentMovie,
+                              "user": userData
+                            });
                           },
                           child: CachedNetworkImage(
                             imageUrl:
@@ -55,11 +54,13 @@ class NowPlayingView extends GetView<NowPlayingController> {
                                     image: imageProvider, fit: BoxFit.cover),
                               ),
                             ),
-                            progressIndicatorBuilder:
-                                (context, url, downloadProgress) => Center(
-                              child: CircularProgressIndicator(
-                                  value: downloadProgress.progress),
-                            ),
+                            placeholder: (context, url) =>
+                                Center(child: Text("Waiting for image")),
+                            // progressIndicatorBuilder:
+                            //     (context, url, downloadProgress) => Center(
+                            //   child: CircularProgressIndicator(
+                            //       value: downloadProgress.progress),
+                            // ),
                             errorWidget: (context, url, error) => Image.asset(
                                 "assets/images/Image_not_available.png"),
                           ),
