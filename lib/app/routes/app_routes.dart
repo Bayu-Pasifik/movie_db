@@ -17,6 +17,10 @@ abstract class Routes {
   static const ALL_CAST = _Paths.ALL_CAST;
   static const ALL_REVIEW = _Paths.ALL_REVIEW;
   static const ALL_SIMILIAR = _Paths.ALL_SIMILIAR;
+  static const ALL_NOW_PLAYING = _Paths.ALL_NOW_PLAYING;
+  static const ALL_UPCOMING_MOVIE = _Paths.ALL_UPCOMING_MOVIE;
+  static const ALL_POPULAR_MOVIE = _Paths.ALL_POPULAR_MOVIE;
+  static const ALL_TOP_MOVIE = _Paths.ALL_TOP_MOVIE;
 }
 
 abstract class _Paths {
@@ -35,4 +39,8 @@ abstract class _Paths {
   static const ALL_CAST = '/all-cast';
   static const ALL_REVIEW = '/all-review';
   static const ALL_SIMILIAR = '/all-similiar';
+  static const ALL_NOW_PLAYING = '/all-now-playing';
+  static const ALL_UPCOMING_MOVIE = '/all-upcoming-movie';
+  static const ALL_POPULAR_MOVIE = '/all-popular-movie';
+  static const ALL_TOP_MOVIE = '/all-top-movie';
 }

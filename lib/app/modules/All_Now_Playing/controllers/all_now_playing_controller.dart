@@ -6,7 +6,7 @@ import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:http/http.dart' as http;
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class NowPlayingController extends GetxController {
+class AllNowPlayingController extends GetxController {
   var hal = 1.obs;
   RefreshController nowPlayingRefresh = RefreshController(initialRefresh: true);
   List<dynamic> current = [];

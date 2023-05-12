@@ -1,37 +1,38 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
-import 'package:movie_db/app/modules/home/controllers/now_playing_controller_controller.dart';
+import 'package:movie_db/app/modules/All_Upcoming_Movie/controllers/all_upcoming_movie_controller.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class NowPlayingView extends GetView<NowPlayingController> {
+class ListUpcomingMovie extends GetView<AllUpcomingMovieController> {
   final String? userData;
-  const NowPlayingView({Key? key, this.userData}) : super(key: key);
+  const ListUpcomingMovie({Key? key, this.userData}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<NowPlayingController>(
-      builder: (c) {
-        return SmartRefresher(
-            controller: c.nowPlayingRefresh,
-            enablePullDown: true,
-            enablePullUp: true,
-            onLoading: () => c.loadData(),
-            onRefresh: () => c.refreshData(),
-            child: GridView.builder(
-              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                  maxCrossAxisExtent: 150,
-                  childAspectRatio: 1 / 1.8,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 20),
-              itemCount: controller.current.length,
-              itemBuilder: (context, index) {
-                CurrentMovie currentMovie = controller.current[index];
-                return Column(
+    return FutureBuilder(
+      future: controller.getCurrent(controller.hal.toInt()),
+      builder: (context, snapshot) {
+        if (snapshot.data == null) {
+          return Center(child: CircularProgressIndicator());
+        }
+        if (snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          }
+        }
+        return ListView.separated(
+            physics: BouncingScrollPhysics(),
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              CurrentMovie currentMovie = controller.upcomming[index];
+              return Container(
+                height: 100,
+                width: 100,
+                // color: Colors.amber,
+                child: Column(
                   children: [
                     Expanded(
                       child: Container(
@@ -49,18 +50,16 @@ class NowPlayingView extends GetView<NowPlayingController> {
                                 "https://image.tmdb.org/t/p/original${currentMovie.posterPath}",
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(16),
+                                borderRadius: BorderRadius.circular(8),
                                 image: DecorationImage(
                                     image: imageProvider, fit: BoxFit.cover),
                               ),
                             ),
-                            placeholder: (context, url) =>
-                                Center(child: Text("Waiting for image")),
-                            // progressIndicatorBuilder:
-                            //     (context, url, downloadProgress) => Center(
-                            //   child: CircularProgressIndicator(
-                            //       value: downloadProgress.progress),
-                            // ),
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Center(
+                              child: CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                            ),
                             errorWidget: (context, url, error) => Image.asset(
                                 "assets/images/Image_not_available.png"),
                           ),
@@ -80,9 +79,13 @@ class NowPlayingView extends GetView<NowPlayingController> {
                           )
                         : Text("Null", style: GoogleFonts.poppins())
                   ],
-                );
-              },
-            ));
+                ),
+              );
+            },
+            separatorBuilder: (context, index) => SizedBox(
+                  width: 10,
+                ),
+            itemCount: 10);
       },
     );
   }

@@ -2,10 +2,18 @@ import 'package:get/get.dart';
 
 import '../modules/All_Cast/bindings/all_cast_binding.dart';
 import '../modules/All_Cast/views/all_cast_view.dart';
+import '../modules/All_Now_Playing/bindings/all_now_playing_binding.dart';
+import '../modules/All_Now_Playing/views/all_now_playing_view.dart';
+import '../modules/All_Popular_Movie/bindings/all_popular_movie_binding.dart';
+import '../modules/All_Popular_Movie/views/all_popular_movie_view.dart';
 import '../modules/All_Review/bindings/all_review_binding.dart';
 import '../modules/All_Review/views/all_review_view.dart';
 import '../modules/All_Similiar/bindings/all_similiar_binding.dart';
 import '../modules/All_Similiar/views/all_similiar_view.dart';
+import '../modules/All_Top_Movie/bindings/all_top_movie_binding.dart';
+import '../modules/All_Top_Movie/views/all_top_movie_view.dart';
+import '../modules/All_Upcoming_Movie/bindings/all_upcoming_movie_binding.dart';
+import '../modules/All_Upcoming_Movie/views/all_upcoming_movie_view.dart';
 import '../modules/DetailPage/bindings/detail_page_binding.dart';
 import '../modules/DetailPage/views/detail_page_view.dart';
 import '../modules/Login_Page/bindings/login_page_binding.dart';
@@ -99,6 +107,26 @@ class AppPages {
       name: _Paths.ALL_SIMILIAR,
       page: () => const AllSimiliarView(),
       binding: AllSimiliarBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_NOW_PLAYING,
+      page: () => const AllNowPlayingView(),
+      binding: AllNowPlayingBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_UPCOMING_MOVIE,
+      page: () => const AllUpcomingMovieView(),
+      binding: AllUpcomingMovieBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_POPULAR_MOVIE,
+      page: () => const AllPopularMovieView(),
+      binding: AllPopularMovieBinding(),
+    ),
+    GetPage(
+      name: _Paths.ALL_TOP_MOVIE,
+      page: () => const AllTopMovieView(),
+      binding: AllTopMovieBinding(),
     ),
   ];
 }

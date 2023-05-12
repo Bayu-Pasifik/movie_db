@@ -6,11 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/modules/Login_Page/controllers/login_page_controller.dart';
 import 'package:movie_db/app/modules/Login_Page/views/login_page_view.dart';
-import 'package:movie_db/app/modules/home/controllers/upcoming_controller_controller.dart';
 import 'package:movie_db/app/modules/home/views/home_view.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
-import 'app/modules/home/controllers/now_playing_controller_controller.dart';
 import 'app/routes/app_pages.dart';
 
 void main() async {
@@ -33,16 +31,16 @@ class MyApp extends StatelessWidget {
         return StreamBuilder<User?>(
             stream: c.userStatus,
             builder: (context, snapshot) {
-              print("isi snapshot main stream sebelum if : ${snapshot.data}");
-              print(
-                  "display name main stream sebelum if: ${snapshot.data?.displayName}");
+              // print("isi snapshot main stream sebelum if : ${snapshot.data}");
+              // print(
+              //     "display name main stream sebelum if: ${snapshot.data?.displayName}");
 
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
               }
-              print("isi snapshot main stream sesudah if : ${snapshot.data}");
-              print(
-                  "display name main stream sesudah if: ${snapshot.data?.displayName}");
+              // print("isi snapshot main stream sesudah if : ${snapshot.data}");
+              // print(
+              //     "display name main stream sesudah if: ${snapshot.data?.displayName}");
               if (snapshot.hasError) {
                 return Center(
                   child: Text(snapshot.error.toString()),

@@ -5,7 +5,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class PopularController extends GetxController {
+class AllPopularMovieController extends GetxController {
   List popularity = [];
   RefreshController popularRefresh = RefreshController(initialRefresh: true);
   var hal = 1.obs;
