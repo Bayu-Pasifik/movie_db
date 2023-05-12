@@ -1,23 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 import 'package:movie_db/app/data/models/SaveMovie.dart';
-
-import 'package:movie_db/app/modules/DetailPage/views/cast_view.dart';
-import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
-import 'package:movie_db/app/modules/DetailPage/views/trailers_item.dart';
-import 'package:movie_db/app/modules/DetailPage/views/video_item.dart';
-import 'package:movie_db/app/modules/home/views/similar_view.dart';
-import 'package:movie_db/app/modules/watch_list/controllers/watch_list_controller.dart';
+import 'package:movie_db/app/modules/widgets/cast_view.dart';
+import 'package:movie_db/app/modules/widgets/similar_view.dart';
+import 'package:movie_db/app/modules/widgets/review_items_view.dart';
+import 'package:movie_db/app/modules/widgets/trailers_item.dart';
 import 'package:movie_db/app/routes/app_pages.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
 import '../controllers/detail_page_controller.dart';
 
 class DetailPageView extends GetView<DetailPageController> {

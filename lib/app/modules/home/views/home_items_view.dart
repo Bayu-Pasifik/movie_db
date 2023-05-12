@@ -3,7 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/modules/home/controllers/home_controller.dart';
-import 'package:movie_db/app/modules/home/views/list_trending.dart';
+import 'package:movie_db/app/modules/widgets/list_trending.dart';
 import 'package:movie_db/app/modules/widgets/List_Now_Playing.dart';
 import 'package:movie_db/app/modules/widgets/List_Popular_Movie.dart';
 import 'package:movie_db/app/modules/widgets/List_Top_Movie.dart';

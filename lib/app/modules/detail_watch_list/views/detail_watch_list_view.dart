@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
-import 'package:movie_db/app/modules/DetailPage/views/cast_view.dart';
-import 'package:movie_db/app/modules/DetailPage/views/review_items_view.dart';
+import 'package:movie_db/app/modules/widgets/cast_view.dart';
+import 'package:movie_db/app/modules/widgets/review_items_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../controllers/detail_watch_list_controller.dart';
@@ -276,7 +276,7 @@ class DetailWatchListView extends GetView<DetailWatchListController> {
                                           style: GoogleFonts.poppins(),
                                         ),
                                       ),
-                                ReviewItemsView(id: detailMovie.id.toString()),
+                                ReviewItemsView (id: detailMovie.id.toString()),
                                 CastView(id: detailMovie.id.toString()),
                                 GetBuilder<DetailWatchListController>(
                                   builder: (c) {

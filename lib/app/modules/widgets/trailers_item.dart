@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:movie_db/app/data/models/TrailerModel.dart';
 import 'package:movie_db/app/modules/DetailPage/controllers/detail_page_controller.dart';
-import 'package:movie_db/app/modules/DetailPage/views/video_item.dart';
+import 'package:movie_db/app/modules/widgets/video_item.dart';
 
 class TrailersItem extends GetView<DetailPageController> {
   final int id;
