@@ -38,16 +38,30 @@ class SimilarView extends GetView<DetailPageController> {
                   CurrentMovie recomend = controller.recom[index];
                   return Container(
                     width: 150,
-                    height: 200,
+                    height: 250,
+                    decoration:
+                        BoxDecoration(borderRadius: BorderRadius.circular(8)),
                     // color: Colors.amber,
                     child: Column(
                       children: [
                         Expanded(
                           child: Container(
                             width: 200,
-                            height: 200,
+                            height: 250,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8)),
                             child: (recomend.posterPath != null)
                                 ? CachedNetworkImage(
+                                    imageBuilder: (context, imageProvider) =>
+                                        Container(
+                                      decoration: BoxDecoration(
+                                        // shape: BoxShape.rectangle,
+                                        borderRadius: BorderRadius.circular(10),
+                                        image: DecorationImage(
+                                            image: imageProvider,
+                                            fit: BoxFit.cover),
+                                      ),
+                                    ),
                                     imageUrl:
                                         "https://image.tmdb.org/t/p/original${recomend.posterPath}",
                                     progressIndicatorBuilder:

@@ -72,7 +72,7 @@ class DetailPageController extends GetxController {
     return cast;
   }
 
-  // !
+  // ! Similar
 
   Future<List> recommendation(String id, int halaman) async {
     Uri url = Uri.parse(
@@ -83,7 +83,7 @@ class DetailPageController extends GetxController {
     totalRecom = json.decode(response.body)['total_pages'];
     var tempData = data.map((e) => CurrentMovie.fromJson(e)).toList();
     recom.addAll(tempData);
-    print(recom.length);
+    print("panjang recomendasi : ${recom.length}");
     return recom;
   }
 
@@ -146,7 +146,7 @@ class DetailPageController extends GetxController {
 //! method for saving data
   var saved = false.obs;
   createSave(SaveMovie saveMovie) {
-    saved.value = true;
+    saved.toggle();
     _db
         .collection("savedFilm")
         .add(saveMovie.toJason())
@@ -158,6 +158,7 @@ class DetailPageController extends GetxController {
             backgroundColor: Colors.green[400]))
         // ignore: body_might_complete_normally_catch_error
         .catchError((error, snackTree) {
+      // saved.value = false;
       Get.snackbar(
         "Error",
         "Something went Wrong, please try again",
@@ -167,7 +168,8 @@ class DetailPageController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       print(error.toString());
-      saved.value = false;
+
+      print("Value saved ${saved.value}");
     });
   }
 

@@ -24,7 +24,7 @@ class TrailersItem extends GetView<DetailPageController> {
           return (controller.trailers != 0)
               ? ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(width: 20),
-                  itemCount: 5,
+                  itemCount: (controller.trailers.length <= 1) ? 1 : 5,
                   itemBuilder: (context, index) {
                     TrailerModel trailers = controller.trailers[index];
                     var trailer = trailers.type == "Trailer";

@@ -218,7 +218,7 @@ class DetailPageView extends GetView<DetailPageController> {
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Text(
-                                    "${detailMovie.originalLanguage?.toUpperCase() ?? null} ",
+                                    "${detailMovie.spokenLanguages![0].englishName ?? null} ",
                                     style: GoogleFonts.poppins(),
                                   ),
                                 )
@@ -359,15 +359,20 @@ class DetailPageView extends GetView<DetailPageController> {
                                     fontWeight: FontWeight.w600, fontSize: 15),
                               ),
                               TextButton(
-                                onPressed: () {
-                                  Get.toNamed(Routes.ALL_REVIEW,
-                                      arguments: detailMovie);
-                                },
+                                onPressed: (controller.reviews.length != 0)
+                                    ? () {
+                                        Get.toNamed(Routes.ALL_REVIEW,
+                                            arguments: detailMovie);
+                                      }
+                                    : () {},
                                 child: Text(
                                   "Load More",
                                   style: GoogleFonts.montserrat(
                                       fontWeight: FontWeight.w600,
-                                      fontSize: 15),
+                                      fontSize: 15,
+                                      color: (controller.reviews.length != 0)
+                                          ? Colors.grey
+                                          : Colors.blue),
                                 ),
                               )
                             ],
@@ -387,9 +392,10 @@ class DetailPageView extends GetView<DetailPageController> {
                                     fontWeight: FontWeight.w600, fontSize: 15),
                               ),
                               TextButton(
-                                  onPressed: () => Get.toNamed(
-                                      Routes.ALL_SIMILIAR,
-                                      arguments: detailMovie),
+                                  onPressed: (controller.recom.length != 0)
+                                      ? () => Get.toNamed(Routes.ALL_SIMILIAR,
+                                          arguments: detailMovie)
+                                      : () {},
                                   child: Text(
                                     "Load More",
                                     style: GoogleFonts.montserrat(
@@ -400,8 +406,10 @@ class DetailPageView extends GetView<DetailPageController> {
                           ),
                           SizedBox(height: 10),
                           Container(
-                              height: 200,
-                              color: Colors.amber,
+                              height: 250,
+                              // color: Colors.amber,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8)),
                               child: SimilarView(id: detail.id!)),
                           SizedBox(height: 50)
                         ],
