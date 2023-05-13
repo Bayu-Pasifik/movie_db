@@ -42,7 +42,9 @@ class WatchListView extends GetView<WatchListController> {
                           onTap: () {
                             Get.toNamed(Routes.DETAIL_WATCH_LIST, arguments: {
                               "idMovie": saveMovie.idMovie,
-                              "docId": saveMovie.id
+                              "docId": saveMovie.id,
+                              "nameMovie": saveMovie.name,
+                              "imgUrl": saveMovie.imageUrl
                             });
                           },
                           child: Row(

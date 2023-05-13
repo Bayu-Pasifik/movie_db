@@ -38,13 +38,20 @@ class DetailPageView extends GetView<DetailPageController> {
             floating: true,
             pinned: true,
             actions: [
-              IconButton(
-                  onPressed: () {
-                    controller.createSave(movie);
-                  },
-                  icon: Obx(() => (controller.saved.isFalse)
+              Obx(() => IconButton(
+                  onPressed: (controller.saved.value == false)
+                      ? () {
+                          controller.createSave(movie);
+                          print("Value saved ${controller.saved.value}");
+                          controller.saved.toggle();
+                        }
+                      : () {
+                          print("Value saved ${controller.saved.value}");
+                          // controller.saved.toggle();
+                        },
+                  icon: Obx(() => (controller.saved.value == false)
                       ? Icon(Icons.bookmark)
-                      : Icon(Icons.bookmark_added_sharp)))
+                      : Icon(Icons.bookmark_added_sharp))))
             ],
             expandedHeight: 250.0,
             flexibleSpace: FlexibleSpaceBar(
@@ -74,7 +81,7 @@ class DetailPageView extends GetView<DetailPageController> {
             delegate: SliverChildBuilderDelegate(
               (_, int index) {
                 return FutureBuilder(
-                  future: controller.detailfilm,
+                  future: controller.detailMovie(detail.id.toString()),
                   builder: (context, snapshot) {
                     if (snapshot.data == null) {
                       return Center(

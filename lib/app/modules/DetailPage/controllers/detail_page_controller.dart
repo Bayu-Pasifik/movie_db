@@ -146,7 +146,6 @@ class DetailPageController extends GetxController {
 //! method for saving data
   var saved = false.obs;
   createSave(SaveMovie saveMovie) {
-    saved.toggle();
     _db
         .collection("savedFilm")
         .add(saveMovie.toJason())
@@ -168,22 +167,20 @@ class DetailPageController extends GetxController {
         snackPosition: SnackPosition.TOP,
       );
       print(error.toString());
-
-      print("Value saved ${saved.value}");
     });
   }
 
   @override
   void onReady() {
     super.onReady();
-    final detailmov = Get.arguments["movie"] as CurrentMovie;
-    detailMovie(detailmov.id.toString());
+    // final detailmov = Get.arguments["movie"] as CurrentMovie;
+    // detailMovie(detailmov.id.toString());
   }
 
   @override
   void onInit() {
-    final detailmov = Get.arguments["movie"] as CurrentMovie;
-    detailfilm = detailMovie(detailmov.id.toString());
+    // final detailmov = Get.arguments["movie"] as CurrentMovie;
+    // detailfilm = detailMovie(detailmov.id.toString());
     super.onInit();
   }
 
