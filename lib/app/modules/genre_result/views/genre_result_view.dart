@@ -38,63 +38,67 @@ class GenreResultView extends GetView<GenreResultController> {
                   itemCount: controller.current.length,
                   itemBuilder: (context, index) {
                     CurrentMovie currentMovie = controller.current[index];
-                    return Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            width: 200,
-                            height: 200,
-                            child: GestureDetector(
-                              onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
-                                  arguments: {
-                                    "movie": currentMovie,
-                                    "user": userData
-                                  }),
-                              child: (currentMovie.posterPath != null)
-                                  ? CachedNetworkImage(
-                                      imageUrl:
-                                          "https://image.tmdb.org/t/p/original/${currentMovie.posterPath}",
-                                      imageBuilder: (context, imageProvider) =>
-                                          Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                          image: DecorationImage(
-                                              image: imageProvider,
-                                              fit: BoxFit.cover),
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              width: 200,
+                              height: 200,
+                              child: GestureDetector(
+                                onTap: () => Get.toNamed(Routes.DETAIL_PAGE,
+                                    arguments: {
+                                      "movie": currentMovie,
+                                      "user": userData
+                                    }),
+                                child: (currentMovie.posterPath != null)
+                                    ? CachedNetworkImage(
+                                        imageUrl:
+                                            "https://image.tmdb.org/t/p/original/${currentMovie.posterPath}",
+                                        imageBuilder:
+                                            (context, imageProvider) =>
+                                                Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(16),
+                                            image: DecorationImage(
+                                                image: imageProvider,
+                                                fit: BoxFit.cover),
+                                          ),
                                         ),
-                                      ),
-                                      progressIndicatorBuilder:
-                                          (context, url, downloadProgress) =>
-                                              Center(
-                                        child: CircularProgressIndicator(
-                                            value: downloadProgress.progress),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                              "assets/images/Image_not_available.png"),
-                                    )
-                                  : Image.asset(
-                                      "assets/images/Image_not_available.png"),
+                                        progressIndicatorBuilder:
+                                            (context, url, downloadProgress) =>
+                                                Center(
+                                          child: CircularProgressIndicator(
+                                              value: downloadProgress.progress),
+                                        ),
+                                        errorWidget: (context, url, error) =>
+                                            Image.asset(
+                                                "assets/images/Image_not_available.png"),
+                                      )
+                                    : Image.asset(
+                                        "assets/images/Image_not_available.png"),
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          "${currentMovie.title}",
-                          style: GoogleFonts.poppins(
-                              textStyle:
-                                  TextStyle(overflow: TextOverflow.ellipsis)),
-                        ),
-                        (currentMovie.releaseDate != "")
-                            ? Text(
-                                "(${currentMovie.releaseDate?.year})",
-                                style: GoogleFonts.poppins(),
-                              )
-                            : Text(
-                                "Null",
-                                style: GoogleFonts.poppins(),
-                              )
-                      ],
+                          Text(
+                            "${currentMovie.title}",
+                            style: GoogleFonts.poppins(
+                                textStyle:
+                                    TextStyle(overflow: TextOverflow.ellipsis)),
+                          ),
+                          (currentMovie.releaseDate != "")
+                              ? Text(
+                                  "(${currentMovie.releaseDate?.year})",
+                                  style: GoogleFonts.poppins(),
+                                )
+                              : Text(
+                                  "Null",
+                                  style: GoogleFonts.poppins(),
+                                )
+                        ],
+                      ),
                     );
                   },
                 ));

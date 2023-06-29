@@ -70,12 +70,12 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.SEARCH,
-      page: () => const SearchView(),
+      page: () => SearchView(),
       binding: SearchBinding(),
     ),
     GetPage(
       name: _Paths.LOGIN_PAGE,
-      page: () => const LoginPageView(),
+      page: () => LoginPageView(),
       binding: LoginPageBinding(),
     ),
     GetPage(
@@ -90,7 +90,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.REGISTER_PAGE,
-      page: () => const RegisterPageView(),
+      page: () => RegisterPageView(),
       binding: RegisterPageBinding(),
     ),
     GetPage(

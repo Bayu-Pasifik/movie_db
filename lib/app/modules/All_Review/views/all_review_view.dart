@@ -16,8 +16,10 @@ class AllReviewView extends GetView<AllReviewController> {
     return Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text("All Reviews for ${detailMovie.title}",
-                            style: GoogleFonts.poppins(),),
+          title: Text(
+            "All Reviews for ${detailMovie.title}",
+            style: GoogleFonts.poppins(),
+          ),
         ),
         body: GetBuilder<AllReviewController>(
           builder: (c) {

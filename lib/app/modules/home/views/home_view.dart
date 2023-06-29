@@ -22,7 +22,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     Get.put(ListGenreController());
-    Get.put(SearchController());
+    final search = Get.put(SearchC());
     Get.put(WatchListController());
     Get.put(AllNowPlayingController());
     Get.put(AllTopMovieController());
@@ -55,6 +55,10 @@ class HomeView extends GetView<HomeController> {
             animationCurve: Curves.easeInOut,
             animationDuration: Duration(milliseconds: 600),
             onTap: (index) {
+              if (index != 1) {
+                search.searchController.clear();
+                search.searchMovieController.itemList?.clear();
+              }
               controller.chagePage(index);
             },
             letIndexChange: (index) => true,

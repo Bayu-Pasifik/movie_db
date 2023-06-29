@@ -366,12 +366,11 @@ class DetailPageView extends GetView<DetailPageController> {
                                     fontWeight: FontWeight.w600, fontSize: 15),
                               ),
                               TextButton(
-                                onPressed: (controller.reviews.length != 0)
-                                    ? () {
+                                onPressed:  () {
                                         Get.toNamed(Routes.ALL_REVIEW,
                                             arguments: detailMovie);
                                       }
-                                    : () {},
+                                    ,
                                 child: Text(
                                   "Load More",
                                   style: GoogleFonts.montserrat(
@@ -399,10 +398,9 @@ class DetailPageView extends GetView<DetailPageController> {
                                     fontWeight: FontWeight.w600, fontSize: 15),
                               ),
                               TextButton(
-                                  onPressed: (controller.recom.length != 0)
-                                      ? () => Get.toNamed(Routes.ALL_SIMILIAR,
+                                  onPressed:  () => Get.toNamed(Routes.ALL_SIMILIAR,
                                           arguments: detailMovie)
-                                      : () {},
+                                      ,
                                   child: Text(
                                     "Load More",
                                     style: GoogleFonts.montserrat(

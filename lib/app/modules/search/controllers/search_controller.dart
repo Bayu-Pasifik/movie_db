@@ -6,50 +6,36 @@ import 'package:movie_db/app/data/api.dart';
 import 'package:movie_db/app/data/models/CurrentMovie.dart';
 import 'package:movie_db/app/data/models/DetailMovie.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
-class SearchController extends GetxController {
-  RefreshController searchRefresh = RefreshController(initialRefresh: true);
+class SearchC extends GetxController {
   late TextEditingController searchController;
-  List<dynamic> resultSearch = [];
-  var page;
-  var totalPage;
-  var hal = 1.obs;
-  Future<List> searchMovie(String query, String halaman) async {
-    Uri url =
-        Uri.parse('$searchMov&query=$query&page=$halaman&include_adult=false');
-    var response = await http.get(url);
-    var data = json.decode(response.body)["results"];
-    page = json.decode(response.body)["page"];
-    totalPage = json.decode(response.body)["total_pages"];
-    var tempData = data.map((e) => CurrentMovie.fromJson(e)).toList();
-    update();
-    resultSearch.addAll(tempData);
-    print("page : $page");
-    print("total page : $totalPage");
-    print(resultSearch.length.toString());
-    update();
-    return resultSearch;
-  }
 
-  void refreshData() async {
-    if (searchRefresh.initialRefresh == true) {
-      hal.value = 1;
-      await searchMovie(searchController.text, hal.value.toString());
-      update();
-      return searchRefresh.refreshCompleted();
-    } else {
-      return searchRefresh.refreshFailed();
-    }
-  }
+  final PagingController<int, CurrentMovie> searchMovieController =
+      PagingController<int, CurrentMovie>(firstPageKey: 1);
 
-  void loadData() async {
-    if (page <= totalPage) {
-      hal.value = hal.value + 1;
-      await searchMovie(searchController.text, hal.value.toString());
-      update();
-      return searchRefresh.loadComplete();
-    } else {
-      return searchRefresh.loadNoData();
+  void searchMovie(String query, int pageKey) async {
+    try {
+      Uri url = Uri.parse(
+          '$searchMov&query=$query&page=$pageKey&include_adult=false');
+      var response = await http.get(url);
+      var tempData = json.decode(response.body)["results"];
+      var data = tempData.map((e) => CurrentMovie.fromJson(e)).toList();
+      List<CurrentMovie> allSearch = List<CurrentMovie>.from(data);
+
+      final nextPage = json.decode(response.body)["page"];
+      final totalPage = json.decode(response.body)["total_pages"];
+      final isLastPage = nextPage == totalPage;
+
+      if (isLastPage) {
+        Get.snackbar("Error", "No more data");
+        searchMovieController.appendLastPage(allSearch);
+      } else {
+        searchMovieController.appendPage(allSearch, pageKey + 1);
+        print("Pagekey di searchMovie: $pageKey");
+      }
+    } catch (e) {
+      searchMovieController.error = e;
     }
   }
 
@@ -66,13 +52,24 @@ class SearchController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    searchMovieController.addPageRequestListener((pageKey) {
+      searchMovie(searchController.text, pageKey);
+      print("Pagekey di init: $pageKey");
+    });
     searchController = TextEditingController();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    searchMovieController.dispose();
+    searchController.dispose();
   }
 
   @override
   void dispose() {
     super.dispose();
+    searchMovieController.dispose();
     searchController.dispose();
-    searchRefresh.dispose();
   }
 }

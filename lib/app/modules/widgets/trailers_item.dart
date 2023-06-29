@@ -21,7 +21,7 @@ class TrailersItem extends GetView<DetailPageController> {
               return Center(child: CircularProgressIndicator());
             }
           }
-          return (controller.trailers != 0)
+          return (controller.trailers.length != 0)
               ? ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(width: 20),
                   itemCount: (controller.trailers.length <= 1) ? 1 : 5,

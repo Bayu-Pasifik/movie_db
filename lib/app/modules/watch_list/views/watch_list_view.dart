@@ -85,52 +85,56 @@ class WatchListView extends GetView<WatchListController> {
                                           color: Colors.grey[200],
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(8))),
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  "${saveMovie.name}",
-                                                  style: GoogleFonts.poppins(
-                                                      textStyle: TextStyle(
-                                                          overflow: TextOverflow
-                                                              .ellipsis)),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(16.0),
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    "${saveMovie.name}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle: TextStyle(
+                                                            overflow:
+                                                                TextOverflow
+                                                                    .ellipsis)),
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(CupertinoIcons.star),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text(
-                                                "${saveMovie.rating}",
-                                                style: GoogleFonts.poppins(),
-                                              )
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 10,
-                                          ),
-                                          Row(
-                                            children: [
-                                              Icon(CupertinoIcons.calendar),
-                                              const SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text(
-                                                "${saveMovie.createdAt}",
-                                                style: GoogleFonts.poppins(),
-                                              )
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(CupertinoIcons.star),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Text(
+                                                  "${saveMovie.rating}",
+                                                  style: GoogleFonts.poppins(),
+                                                )
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            Row(
+                                              children: [
+                                                Icon(CupertinoIcons.calendar),
+                                                const SizedBox(
+                                                  width: 3,
+                                                ),
+                                                Text(
+                                                  "${saveMovie.createdAt}",
+                                                  style: GoogleFonts.poppins(),
+                                                )
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       )),
                                 ),
                               )

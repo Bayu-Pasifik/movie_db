@@ -58,6 +58,7 @@ class DetailPageController extends GetxController {
     totalPage = json.decode(response.body)['total_pages'];
     var tempData = data.map((e) => ReviewMovie.fromJson(e)).toList();
     reviews.addAll(tempData);
+    print("Panjang reviews : ${reviews.length}");
     return reviews;
   }
 
@@ -83,7 +84,7 @@ class DetailPageController extends GetxController {
     totalRecom = json.decode(response.body)['total_pages'];
     var tempData = data.map((e) => CurrentMovie.fromJson(e)).toList();
     recom.addAll(tempData);
-    print("panjang recomendasi : ${recom.length}");
+    print("Panjang recom : ${recom.length}");
     return recom;
   }
 
@@ -145,7 +146,7 @@ class DetailPageController extends GetxController {
 
 //! method for saving data
   var saved = false.obs;
-  createSave(SaveMovie saveMovie) {
+  void createSave(SaveMovie saveMovie) {
     _db
         .collection("savedFilm")
         .add(saveMovie.toJason())

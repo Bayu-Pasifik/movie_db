@@ -27,7 +27,7 @@ class RegisterPageController extends GetxController {
             Get.back(); // Close dialog
             Get.back();
           },
-          middleTextStyle: GoogleFonts.poppins(),
+          middleTextStyle: GoogleFonts.poppins(color: Colors.white),
           textConfirm: "Yes i'am understand");
     } on FirebaseAuthException catch (e) {
       print(e.toString());
@@ -81,6 +81,9 @@ class RegisterPageController extends GetxController {
     emailC.dispose();
     usernameC.dispose();
     passwordC.dispose();
+  }
+
+  void cleanText() {
     emailC.clear();
     passwordC.clear();
     usernameC.clear();

@@ -28,14 +28,16 @@ class LoginPageController extends GetxController {
         Get.defaultDialog(
             title: "Error",
             middleText:
-                " pleseverif your email\n not recive verification code?",
+                " please verif your email\n not recive verification code?",
             middleTextStyle: GoogleFonts.poppins(),
-            textCancel: "Cancle",
+            textCancel: "Cancel",
             onCancel: () => Get.back(),
             onConfirm: () async {
               await myUser.user!.sendEmailVerification();
+              Get.back();
             },
-            textConfirm: "Yes i'am understand");
+            confirmTextColor: Colors.white,
+            textConfirm: "Yes, send me Verif code again");
       }
     } on FirebaseAuthException catch (e) {
       print(e.toString());
@@ -99,6 +101,10 @@ class LoginPageController extends GetxController {
     super.onInit();
     emailC = TextEditingController();
     passwordC = TextEditingController();
+  }
+  void cleanText() {
+    emailC.clear();
+    passwordC.clear();
   }
 
   @override

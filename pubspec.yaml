@@ -13,10 +13,10 @@ dependencies:
   cached_network_image: 3.2.3
   responsive_sizer: 3.1.1
   google_fonts: 4.0.3
-  firebase_storage: 11.0.11
-  firebase_core: 2.5.0
-  firebase_auth: 4.2.6
-  cloud_firestore: 4.4.0
+  firebase_storage: 11.2.3
+  firebase_core: 2.14.0
+  firebase_auth: 4.6.3
+  cloud_firestore: 4.8.1
   lottie: 2.2.0
   curved_navigation_bar: 1.0.3
   intl: 0.17.0
@@ -24,6 +24,11 @@ dependencies:
   expandable: 5.0.1
   youtube_player_flutter: 8.1.2
   carousel_slider: 4.2.1
+  flutter_launcher_icons: 0.13.1
+  infinite_scroll_pagination: 3.2.0
+  loading_animation_widget: 1.2.0+4
+  email_validator: 2.1.17
+  flutter_native_splash: 2.3.1
   flutter: 
     sdk: flutter
 
@@ -37,4 +42,18 @@ flutter:
     - assets/images/
     - assets/lottie/
   uses-material-design: true
+
+flutter_launcher_icons: 
+  android: launcher_icon
+  image_path: assets/images/icon-playstore.png
+  ios: true
+  min_sdk_android: 21
+
+flutter_native_splash: 
+  android: true
+  ios: true
+  web: true
+  image: "assets/images/icon-playstore.png"
+  color: "#F9F5F6"
+
 

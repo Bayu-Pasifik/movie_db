@@ -22,7 +22,44 @@
           }
         },
         {
-          "client_id": "619255343495-8h4t27e6v1dnra18kb12ip1mtop1vlne.apps.googleusercontent.com",
+          "client_id": "619255343495-clmvqpbdoa1bal5tgmh03fapv4qnatqs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEDZluFZ3YwpAc1vHGR81dAyleNSYwH_k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619255343495-8h4t27e6v1dnra18kb12ip1mtop1vlne.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619255343495:android:e74ee5ba886d8d441a4b22",
+        "android_client_info": {
+          "package_name": "com.MoviePedia.movie_pedia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "619255343495-e2bklnecjsmmpa97fbeprk344nvg2s08.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.MoviePedia.movie_pedia",
+            "certificate_hash": "37ae885b1f09b0249c4d9b7b1b5fd116316841ef"
+          }
+        },
+        {
+          "client_id": "619255343495-clmvqpbdoa1bal5tgmh03fapv4qnatqs.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
